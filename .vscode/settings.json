@@ -7,4 +7,7 @@
       "javascript"
     ],
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true, 
+    "eslint.alwaysShowStatus": true, 
+    "files.autoSave": "onFocusChange"
   }
