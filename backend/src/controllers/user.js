@@ -103,7 +103,7 @@ export default class UsersController {
   static async updateAnAccount(req, res) {
     const { userId } = req.user;
     const {
-      firstName, lastName,
+      firstName, lastName, balance,
     } = req.body;
     try {
       const result = await Users.findOne({ where: { id: userId } });
@@ -111,13 +111,13 @@ export default class UsersController {
         return res.status(404).json({ status: 404, error: 'Account not found!' });
       }
       await Users.update({
-        firstName, lastName,
+        firstName, lastName, balance,
       }, { where: { id: userId } });
       return res.status(200).json({
         status: 200,
         message: 'Successful!',
         data: {
-          firstName, lastName,
+          firstName, lastName, balance,
         },
       });
     } catch (error) {

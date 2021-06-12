@@ -25,7 +25,7 @@ export default function App() {
         <Route exact path="/groups" component={Groups} />
         <Route exact path="/group/:email" component={PartGroups} />
         <Route exact path="/add-money" component={DepositToPersonalAccount} />
-        <PrivateRoute
+        <Route
           exact
           path="/group-money/:id"
           component={DepositToGroupAccount}

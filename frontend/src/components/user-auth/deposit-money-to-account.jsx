@@ -17,10 +17,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'grey',
-        borderTop: '20%',
-      },
+    },
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'grey',
     },
   },
   button: {
@@ -98,6 +97,12 @@ export default function DepositToPersonalAccount() {
             value={balance}
             type="number"
             inputProps={{ readOnly: true }}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
@@ -107,6 +112,12 @@ export default function DepositToPersonalAccount() {
             value={amount}
             type="number"
             onChange={(e) => setAmount(+e.target.value)}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
         </form>

@@ -1,15 +1,4 @@
-.primary-welcome-text {
-    color: white;
-    text-align: center;
-    margin-top: 15%;
-    font-size: 50px;
-}
-
-.secondary-text {
-    color: #8A94A7;
-    text-align: center;
-}
-
-a {
-    text-decoration: none;
+body {
+    height: 100%;
+    border: 15px solid #42464e
 }

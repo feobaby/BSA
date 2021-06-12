@@ -32,7 +32,6 @@ export default class GroupsController {
         data: result,
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }
   }
@@ -57,7 +56,6 @@ export default class GroupsController {
       }
       return res.status(200).json({ status: 200, message: 'Successful!', data });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }
   }
@@ -107,7 +105,6 @@ export default class GroupsController {
       }
       return res.status(200).json({ status: 200, message: 'Successful!', data: result });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }
   }
@@ -164,7 +161,7 @@ export default class GroupsController {
       const { userId } = req.user;
       const addToBalance = parseFloat(groupBalance + amount);
       const checkRemainingBalance = parseFloat(goalBalance - groupBalance);
-      const newBalance = parseFloat(balance - amount);
+      const newPersonalBalance = parseFloat(balance - amount);
 
       // if the amount you want to depost exceeds your perosnal balance
       if (amount > balance) {
@@ -183,10 +180,9 @@ export default class GroupsController {
         return res.status(400).json({ status: 400, error: 'Hey, stop trying to add more money than you should.' });
       }
       await Groups.update({ groupBalance: addToBalance }, { where: { id } });
-      const updatePB = await Users.update({ balance: newBalance }, { where: { id: userId } });
-      return res.status(200).json({ status: 200, message: 'Successful!', data: { newbalance: addToBalance, updatePB } });
+      await Users.update({ balance: newPersonalBalance }, { where: { id: userId } });
+      return res.status(200).json({ status: 200, message: 'Successful!' });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }
   }
