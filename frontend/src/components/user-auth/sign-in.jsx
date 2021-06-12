@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import './sign-in.css';
 import CircularIndeterminate from '../utils/spinner/spinner';
 import axios from '../../services/axios';
-//import './sign-in.css';
 import { message as alert } from 'antd';
 import 'antd/dist/antd.css';
 import Container from '@material-ui/core/Container';
@@ -17,10 +17,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'grey',
-        borderTop: '20%',
-      },
+    },
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'grey',
     },
   },
   button: {
@@ -73,18 +72,26 @@ export default function Login() {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <br /> <br /> <br />
         <Typography variant="h3">Hey buddy! Nice to have you back.</Typography>
       </ThemeProvider>{' '}
       {loading && <CircularIndeterminate />}
       <Container align="center">
         <form className={classes.root} onSubmit={handleSubmit}>
           <TextField
-            style={{ width: '50%', color: '#ffffff' }}
+            style={{ width: '50%' }}
             id="outlined-required"
-            label="Required"
+            label="Email"
             variant="outlined"
             value={email}
+            placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
           <TextField
@@ -93,7 +100,14 @@ export default function Login() {
             label="Password"
             variant="outlined"
             value={password}
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
         </form>

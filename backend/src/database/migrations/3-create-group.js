@@ -28,6 +28,7 @@ export default {
       },
       groupBalance: {
         type: Sequelize.FLOAT,
+        defaultValue: 0,
         allowNull: false,
       },
       goalBalance: {

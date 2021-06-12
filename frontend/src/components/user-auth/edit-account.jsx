@@ -17,10 +17,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'grey',
-        borderTop: '20%',
-      },
+    },
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'grey',
     },
   },
   button: {
@@ -93,6 +92,12 @@ export default function EditAccount() {
             variant="outlined"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
           <TextField
@@ -102,6 +107,12 @@ export default function EditAccount() {
             variant="outlined"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
         </form>

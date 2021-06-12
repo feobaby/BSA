@@ -21,6 +21,7 @@ export default (sequelize, DataTypes) => {
     },
     groupBalance: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
       allowNull: false,
     },
     goalBalance: {

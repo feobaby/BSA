@@ -3,23 +3,22 @@ import { useHistory } from 'react-router-dom';
 import CircularIndeterminate from '../utils/spinner/spinner';
 import axios from '../../services/axios';
 import { message as alert } from 'antd';
-import 'antd/dist/antd.css';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-
 import { makeStyles } from '@material-ui/core/styles';
+import 'antd/dist/antd.css';
 
+// material ui general style for used components
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'grey',
-        borderTop: '20%',
-      },
+    },
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'grey',
     },
   },
   button: {
@@ -29,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const theme = createMuiTheme();
 
+// style for typography
 theme.typography.h3 = {
   fontSize: '1.2rem',
   '@media (min-width:600px)': {
@@ -59,14 +59,15 @@ export default function DepositToGroupAccount(props) {
     setGoalBalance(res.data.data.goalBalance);
     setGroupBalance(res.data.data.groupBalance);
     setBalance(resAcc.data.data.balance);
-    console.log(resAcc.data.data.balance);
   }, []);
+
+  const newBalance = parseFloat(balance - amount);
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
       setLoading(true);
-      await axios.patch(
+      const depositGroupMoney = await axios.patch(
         // eslint-disable-next-line react/prop-types
         `/group/add-money/${props.match.params.id}`,
         {
@@ -75,22 +76,19 @@ export default function DepositToGroupAccount(props) {
           amount,
         },
       );
-      const editBalance = await axios.patch('/account', {
-        balance,
+      await axios.patch('/account', {
+        balance: newBalance,
       });
-      console.log(editBalance);
-      // await axios.patch('/account', { balance });
-      const { status, message } = editBalance.data;
+      const { status, message } = depositGroupMoney.data;
       if (status === 200) {
         alert.success(message);
         history.push('/dashboard');
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
-      // if (error.response.status === 400) {
-      //   alert.error(error.response.data.error);
-      // }
+      if (error.response.status === 400) {
+        alert.error(error.response.data.error);
+      }
     }
   };
 
@@ -111,6 +109,12 @@ export default function DepositToGroupAccount(props) {
             type="number"
             value={balance}
             inputProps={{ readOnly: true }}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
           <TextField
@@ -121,6 +125,12 @@ export default function DepositToGroupAccount(props) {
             type="number"
             value={goalBalance}
             inputProps={{ readOnly: true }}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
           <TextField
@@ -131,6 +141,12 @@ export default function DepositToGroupAccount(props) {
             type="number"
             value={groupBalance}
             inputProps={{ readOnly: true }}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
           <TextField
@@ -141,6 +157,12 @@ export default function DepositToGroupAccount(props) {
             type="number"
             value={amount}
             onChange={(e) => setAmount(+e.target.value)}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
         </form>

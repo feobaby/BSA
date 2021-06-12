@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CircularIndeterminate from '../utils/spinner/spinner';
 import axios from '../../services/axios';
-import './sign-in.css';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -10,17 +9,15 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { message as alert } from 'antd';
 import 'antd/dist/antd.css';
-
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'grey',
-        borderTop: '20%',
-      },
+    },
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'grey',
     },
   },
   button: {
@@ -79,6 +76,7 @@ export default function SignUp() {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <br /> <br /> <br />
         <Typography variant="h3">Join Us!</Typography>
       </ThemeProvider>{' '}
       {loading && <CircularIndeterminate />}
@@ -90,16 +88,30 @@ export default function SignUp() {
             label="First Name"
             variant="outlined"
             value={firstName}
+            placeholder="First Name"
             onChange={(e) => setFirstName(e.target.value)}
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
             id="outlined-required"
             label="Last Name"
+            value={lastName}
+            placeholder="Last Name"
             variant="outlined"
             onChange={(e) => setLastName(e.target.value)}
-            required
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
           <TextField
@@ -110,7 +122,12 @@ export default function SignUp() {
             value={email}
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
-            required
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
           <br />
           <TextField
@@ -121,7 +138,12 @@ export default function SignUp() {
             value={password}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
-            required
+            InputProps={{
+              style: { color: '#fff' },
+            }}
+            InputLabelProps={{
+              style: { color: '#fff' },
+            }}
           />
         </form>
         <Button

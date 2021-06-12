@@ -1,6 +1,8 @@
 # Bill Sharing App
 
 <p> A simple project that allows friends share bills together.</p>
+<p>For Context: A user can sign up and create a group by adding others through their emails. Users can 
+check what groups they are part of and donate money towards the group's money goals.</p>
 
 ## :rocket: Quick start
 
@@ -115,7 +117,6 @@ POST `localhost:3000/api/v1/create-group`
         "name": "Money Movers",
         "description": "Let us donate to give Bayo a brand new car.",
         "goalBalance": 500.00, // the exact money you wish to accumulate
-        "groupBalance": 0
     }
 
 
@@ -136,7 +137,6 @@ PATCH `localhost:3000/api/v1/group/:id`
         "name": "Money Movers",
         "description": "Let us donate to give Bayo a brand new car.",
         "goalBalance": 1000.00, // the exact money you wish to accumulate
-        "groupBalance": 0
     }
 
 
@@ -203,3 +203,18 @@ Note: copy the `token` gotten from the sign up/in response and add it to the Bea
 DELETE `localhost:3000/api/v1/group/:id` 
 
 Note: copy the `token` gotten from the sign up/in response and add it to the Bearer `token` field in postman.
+
+#
+#
+
+## Available Frontend APIs
+
+1. To sign up: `localhost:8080/api/v1/sign-up`
+2. To sign in: `localhost:8080/api/v1/sign-in`
+3. To view a user dashboard after signing up/in: `localhost:8080/api/v1/dashboard`
+4. For user to make simple settings: `localhost:8080/api/v1/settings`
+5. For user to check all groups they have created: `localhost:8080/api/v1/groups`
+6. For user to check all groups they have been added to/part of: `localhost:8080/api/v1/groups/:email`
+7. For user to get just one group: `localhost:8080/api/v1/one-group/:id`
+8. For user to deposit money to personal account: `localhost:8080/api/v1/add-money/:id`
+9. For user to deposit money to group: `localhost:8080/api/v1/group-money/:id`

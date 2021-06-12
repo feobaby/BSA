@@ -2,33 +2,52 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import '@fontsource/roboto';
 import './home.css';
+import Typography from '@material-ui/core/Typography';
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginLeft: '43%',
+    marginTop: '10%',
+    color: 'white',
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: '3%',
+    padding: '10px 25px',
+    width: '18%',
   },
 }));
 
 export default function Home() {
   const classes = useStyles();
   return (
-    <div>
-      <h1 className="primary-welcome-text">Welcome to the Bill Sharing App.</h1>
-      <h3 className="secondary-text">
+    <div className={classes.root}>
+      <Typography variant="h2" color="inherit" gutterBottom>
+        Welcome to the Bill Sharing App.
+      </Typography>
+      <Typography variant="h6" color="inherit" gutterBottom>
         Good friends pays bills together. No one came to pay bills alone and
         die.
-      </h3>
-
-      {/* Button Section */}
-      <div className={classes.root}>
-        <Link to={{ pathname: '/sign-in' }}>
-          <Button variant="contained">Sign in</Button>
-        </Link>{' '}
-        <Button variant="contained" color="primary">
-          <Link to={{ pathname: '/sign-up' }}>Sign up</Link>
-        </Button>
-      </div>
+      </Typography>
+      <Button
+        variant="contained"
+        component={Link}
+        to="/sign-in"
+        className={classes.button}
+      >
+        Sign in
+      </Button>{' '}
+      <Button
+        variant="contained"
+        color="primary"
+        component={Link}
+        to="/sign-up"
+        className={classes.button}
+      >
+        Sign up
+      </Button>
     </div>
   );
 }
