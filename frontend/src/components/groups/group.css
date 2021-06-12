@@ -1,0 +1,47 @@
+.groups-box {
+    width: 50%;
+    height: 100%;  
+    padding: 20px;
+    border: 1px solid grey;
+    margin: 0px auto;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.groups-text {
+    color: white;
+    text-align: center;
+    margin-top: 2%;
+}
+
+.groups-inner-text {
+    color: white;
+}
+
+
+.group-inner-text {
+    color: white;
+    text-align: center;
+}
+
+.group-inner-text-for-emails {
+    background-color: grey;
+    text-align: center;
+    margin-left: 40%;
+    width: 20%;
+}
+
+.group-text {
+    font-size: 30px;
+    color: white;
+    text-align: center;
+}
+
+.group-descrip {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+}
+
