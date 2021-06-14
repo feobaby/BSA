@@ -1,7 +1,7 @@
 version: "2"
 exclude_patterns:
-  - "**/src/database/"
-  - "**/src/models/"
-  - "**/src/middlewares/"
-  - "**/**/tests/"
-  - "**/src/"
+  - "backend/src/database/"
+  - "backend/src/models/"
+  - "backend/src/middlewares/"
+  - "backend/src/tests/"
+  - "frontend/src/"
