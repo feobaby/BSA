@@ -6,8 +6,10 @@ check what groups they are part of and donate money towards the group's money go
 
 ## Badges for Backend tests
 
+[![Build Status](https://www.travis-ci.com/codeliezel/Fullstack-bill-sharing-app.svg?branch=main)](https://www.travis-ci.com/codeliezel/Fullstack-bill-sharing-app)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d3de7cb6253766bcf279/maintainability)](https://codeclimate.com/github/codeliezel/Fullstack-bill-sharing-app/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d3de7cb6253766bcf279/test_coverage)](https://codeclimate.com/github/codeliezel/Fullstack-bill-sharing-app/test_coverage)
+
 ## :rocket: Quick start
 
 1.  Have Git and Node.js installed on your computer.
