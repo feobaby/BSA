@@ -4,6 +4,10 @@
 <p>For Context: A user can sign up and create a group by adding others through their emails. Users can 
 check what groups they are part of and donate money towards the group's money goals.</p>
 
+## Badges for Backend tests
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/d3de7cb6253766bcf279/maintainability)](https://codeclimate.com/github/codeliezel/Fullstack-bill-sharing-app/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d3de7cb6253766bcf279/test_coverage)](https://codeclimate.com/github/codeliezel/Fullstack-bill-sharing-app/test_coverage)
 ## :rocket: Quick start
 
 1.  Have Git and Node.js installed on your computer.
@@ -13,6 +17,7 @@ check what groups they are part of and donate money towards the group's money go
 5.  Create a .env file in the backend folder and add the necessary variables following the _.env.sample_ format.
 6.  Run `npm run start:dev` to start the backend server.
 7.  Run `yarn start` to power the frontend.
+8. Run `npm run test` to run tests for the backend server
 
 ## :star: Technologies Used
 

@@ -48,28 +48,6 @@ module.exports = {
       balance: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
-    },
-    {
-      id: '17646675-5332-4b53-9c1d-2540defd21bd',
-      email: 'tunde@gmail.com',
-      password: hash,
-      firstName: 'Tunde',
-      lastName: 'Falana',
-      role: 'User',
-      balance: 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'f3922f3f-3fc9-48d9-af4e-de4897554c14',
-      email: 'feyi@gmail.com',
-      password: hash,
-      firstName: 'Feyi',
-      lastName: 'Makinde',
-      role: 'User',
-      balance: 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     }], {});
   },
   down: async (queryInterface, Sequelize) => {

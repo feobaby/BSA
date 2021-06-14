@@ -203,7 +203,7 @@ export default class GroupsController {
         return res.status(404).json({ status: 404, error: 'Group not found!' });
       }
       await Groups.destroy({ where: { id, userId } });
-      return res.status(200).json({ status: 200, message: 'Successful!' });
+      return res.status(204).json({ status: 204 });
     } catch (error) {
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }
