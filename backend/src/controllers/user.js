@@ -2,6 +2,8 @@ import models from '../models';
 import { generateToken } from '../utils/index';
 import Helper from '../utils/bcrypt';
 
+const { Op } = require('sequelize');
+
 const { Users } = models;
 const { hashPassword } = Helper;
 
@@ -19,10 +21,10 @@ export default class UsersController {
    * @returns {object} Returns body object
    */
   static async createUser(req, res) {
+    const {
+      email,
+    } = req.body;
     try {
-      const {
-        email,
-      } = req.body;
       req.body.password = await hashPassword(req.body.password);
       const user = await Users.findOne({ where: { email } });
       if (user) {
@@ -36,7 +38,6 @@ export default class UsersController {
         status: 201, message: 'Successful!', data: result, token,
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }
   }
@@ -49,8 +50,8 @@ export default class UsersController {
    * @returns {object} response body object
    */
   static async signInUser(req, res) {
+    const { email, password } = req.body;
     try {
-      const { email, password } = req.body;
       const user = await Users.findOne({ where: { email } });
       if (!user) {
         return res.status(401).json({ status: 401, error: 'Unauthorised email, sorry.' });
@@ -84,9 +85,6 @@ export default class UsersController {
     const { userId } = req.user;
     try {
       const result = await Users.findOne({ where: { id: userId } });
-      if (!result) {
-        return res.status(404).json({ status: 404, error: 'Account not found!' });
-      }
       return res.status(200).json({ status: '200', message: 'Successful!', data: result });
     } catch (error) {
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
@@ -103,21 +101,18 @@ export default class UsersController {
   static async updateAnAccount(req, res) {
     const { userId } = req.user;
     const {
-      firstName, lastName, balance,
+      firstName, lastName,
     } = req.body;
     try {
-      const result = await Users.findOne({ where: { id: userId } });
-      if (!result) {
-        return res.status(404).json({ status: 404, error: 'Account not found!' });
-      }
+      await Users.findOne({ where: { id: userId } });
       await Users.update({
-        firstName, lastName, balance,
+        firstName, lastName,
       }, { where: { id: userId } });
       return res.status(200).json({
         status: 200,
         message: 'Successful!',
         data: {
-          firstName, lastName, balance,
+          firstName, lastName,
         },
       });
     } catch (error) {

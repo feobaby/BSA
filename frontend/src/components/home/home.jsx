@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import '@fontsource/roboto';
 import './home.css';
 import Typography from '@material-ui/core/Typography';
-import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: '3%',
     padding: '10px 25px',
-    width: '18%',
+    width: '12%',
   },
 }));
 
