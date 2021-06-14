@@ -9,7 +9,8 @@
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "seed": "node_modules/.bin/sequelize db:seed:all",
     "filldevdb": "cross-env NODE_ENV=development npm run migrate && cross-env NODE_ENV=development npm run seed",
-    "filltestdb": "cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed"
+    "filltestdb": "cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed",
+    "coverage": "nyc report --reporter=text-lcov --reporter=lcov | coveralls"
   },
   "repository": {
     "type": "git",
