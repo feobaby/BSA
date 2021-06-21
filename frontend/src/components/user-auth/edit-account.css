@@ -1,12 +1,7 @@
-.sign-in-text {
-    color: white;
-    font-size: xx-large;
-    text-align: center;
-}
-
 .welcome-text {
-    font-size: 35px;
     color: white;
+    font-size: 35px;
+    text-align: center;
 }
 
 /* Responsive columns */
@@ -14,4 +9,4 @@
     .welcome-text {
       font-size: 20px;
     }
-} 
+  } 

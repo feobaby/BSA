@@ -33,6 +33,7 @@ check what groups they are part of and donate money towards the group's money go
 
 SECRET=
 DEV_DATABASE_URL = postgres://<pg-user>:<pg-pass>@localhost:5432/<pg-database>
+TEST_DATABASE_URL = postgres://<pg-user>:<pg-pass>@localhost:5432/<pg-database>
 
 ```
 

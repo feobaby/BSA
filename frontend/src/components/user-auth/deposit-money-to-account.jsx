@@ -5,13 +5,10 @@ import axios from '../../services/axios';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import { message as alert } from 'antd';
 import 'antd/dist/antd.css';
-import './deposit-money-to-account.css';
-
-import { makeStyles } from '@material-ui/core/styles';
+import './deposit-money.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,25 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const theme = createMuiTheme();
-
-theme.typography.h3 = {
-  fontSize: '1.2rem',
-  '@media (min-width:600px)': {
-    fontSize: '1.5rem',
-    color: 'white',
-    textAlign: 'center',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '2rem',
-  },
-};
-
 export default function DepositToPersonalAccount() {
   const classes = useStyles();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [balance, setBalance] = useState(0);
 
   useEffect(async () => {
@@ -55,7 +38,7 @@ export default function DepositToPersonalAccount() {
     setBalance(res.data.data.balance);
   }, []);
 
-  const onClick = () => {
+  const calculatePersonalBalance = () => {
     parseFloat(balance + amount).toFixed(2);
   };
 
@@ -75,16 +58,12 @@ export default function DepositToPersonalAccount() {
     } catch (error) {
       setLoading(false);
     }
-    onClick();
+    calculatePersonalBalance();
   };
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Typography variant="h3">
-          Put some more cash into ya account.
-        </Typography>
-      </ThemeProvider>{' '}
+      <p className="welcome-text"> Put some more cash into ya account.</p>
       <br />
       {loading && <CircularIndeterminate />}
       <Container align="center">

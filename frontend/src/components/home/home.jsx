@@ -2,9 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import '@fontsource/roboto';
-import './home.css';
 import Typography from '@material-ui/core/Typography';
+import './home.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {

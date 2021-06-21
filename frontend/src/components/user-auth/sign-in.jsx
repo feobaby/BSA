@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import './sign-in.css';
 import CircularIndeterminate from '../utils/spinner/spinner';
 import axios from '../../services/axios';
 import { message as alert } from 'antd';
-import 'antd/dist/antd.css';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
+import '@fontsource/roboto';
 import { makeStyles } from '@material-ui/core/styles';
+import './sign-in.css';
+import 'antd/dist/antd.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,20 +24,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
 }));
-
-const theme = createMuiTheme();
-
-theme.typography.h3 = {
-  fontSize: '1.2rem',
-  '@media (min-width:600px)': {
-    fontSize: '1.5rem',
-    color: 'white',
-    textAlign: 'center',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '2rem',
-  },
-};
 
 export default function Login() {
   const classes = useStyles();
@@ -71,10 +55,8 @@ export default function Login() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <br /> <br /> <br />
-        <Typography variant="h3">Hey buddy! Nice to have you back.</Typography>
-      </ThemeProvider>{' '}
+      <br /> <br /> <br />
+      <p className="sign-in-text">Hey buddy! Nice to have you back.</p>
       {loading && <CircularIndeterminate />}
       <Container align="center">
         <form className={classes.root} onSubmit={handleSubmit}>
@@ -85,6 +67,7 @@ export default function Login() {
             variant="outlined"
             value={email}
             placeholder="Email"
+            required
             onChange={(e) => setEmail(e.target.value)}
             InputProps={{
               style: { color: '#fff' },
@@ -101,6 +84,7 @@ export default function Login() {
             variant="outlined"
             value={password}
             placeholder="Password"
+            required={true}
             onChange={(e) => setPassword(e.target.value)}
             InputProps={{
               style: { color: '#fff' },

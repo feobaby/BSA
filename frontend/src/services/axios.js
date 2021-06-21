@@ -13,7 +13,6 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   const configInstance = { ...config };
-  // eslint-disable-next-line no-param-reassign
   config.headers.Authorization = `Bearer ${token}`;
   return configInstance;
 });

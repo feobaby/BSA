@@ -2,7 +2,7 @@ import models from '../models';
 
 const { Op } = require('sequelize');
 
-const { Groups, Users } = models;
+const { Groups, Users, Transactions } = models;
 
 /**
  * @class GroupsController
@@ -99,7 +99,7 @@ export default class GroupsController {
       });
       if (!result) {
         return res.status(404).json({
-          status: '404',
+          status: 404,
           message: 'It seems you are not part of any group!',
         });
       }
@@ -120,7 +120,7 @@ export default class GroupsController {
     const { id } = req.params;
     const { userId } = req.user;
     const {
-      name, category, emails,
+      name, category, emails, goalBalance,
     } = req.body;
     try {
       const result = await Groups.findByPk(id);
@@ -131,13 +131,13 @@ export default class GroupsController {
         return res.status(401).json({ status: 401, error: 'Access denied' });
       }
       await Groups.update({
-        name, category, emails,
+        name, category, emails, goalBalance,
       }, { where: { id } });
       return res.status(200).json({
-        status: '200',
+        status: 200,
         message: 'Successful!',
         data: {
-          name, category, emails,
+          name, category, emails, goalBalance,
         },
       });
     } catch (error) {
@@ -159,12 +159,18 @@ export default class GroupsController {
       } = req.body;
       const { id } = req.params;
       const { userId } = req.user;
-      const addToBalance = parseFloat(groupBalance + amount);
-      const checkRemainingBalance = parseFloat(goalBalance - groupBalance);
-      const newPersonalBalance = parseFloat(balance - amount);
 
-      // if the amount you want to depost exceeds your perosnal balance
-      if (amount > balance) {
+      // calculate the group's balance after depositing an amount
+      const addToBalance = parseFloat(groupBalance + amount);
+
+      // calculate the group's balance against the group's goal balance
+      const checkRemainingBalance = parseFloat(goalBalance - groupBalance);
+
+      // calculate the user's remaining money in his/her account after depositing money to a group
+      const newBalance = parseFloat(balance - amount);
+
+      // if the amount you want to depost exceeds your personal balance
+      if (parseFloat(amount > balance)) {
         return res.status(400).json({ status: 400, error: 'Lol, you do not have enough money now.' });
       }
       // if the amount you want to add exceeds the amount goals
@@ -179,8 +185,11 @@ export default class GroupsController {
       if (amount > checkRemainingBalance) {
         return res.status(400).json({ status: 400, error: 'Hey, stop trying to add more money than you should.' });
       }
+      await Transactions.create({
+        userId, amount,
+      });
       await Groups.update({ groupBalance: addToBalance }, { where: { id } });
-      await Users.update({ balance: newPersonalBalance }, { where: { id: userId } });
+      await Users.update({ balance: newBalance }, { where: { id: userId } });
       return res.status(200).json({ status: 200, message: 'Successful!' });
     } catch (error) {
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });

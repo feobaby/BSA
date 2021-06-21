@@ -6,7 +6,7 @@
     margin: 0px auto;
 }
 
-ul {
+ul.group-list-style {
     list-style-type: none;
 }
 
@@ -18,13 +18,14 @@ ul {
 
 .groups-inner-text {
     color: white;
+    font-size: medium;
 }
-
 
 .group-inner-text {
     color: white;
     text-align: center;
 }
+
 
 .group-inner-text-for-emails {
     background-color: grey;
@@ -45,3 +46,29 @@ ul {
     text-align: center;
 }
 
+a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.delete-icon {
+    font-size: small;
+}
+
+.welcome-text {
+    font-size: 35px;
+    color: white;
+}
+
+.little-text {
+    color: white;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 800px) {
+    .welcome-text {
+      font-size: 20px;
+    }
+} 

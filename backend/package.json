@@ -1,5 +1,5 @@
 {
-  "name": "invoice-management-app",
+  "name": "fullstack-bill-sharing-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,6 +8,7 @@
     "start:dev": "cross-env NODE_ENV=development nodemon --exec babel-node ./src/app.js",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "seed": "node_modules/.bin/sequelize db:seed:all",
+    "drop-test-db": " cross-env NODE_ENV=test node_modules/.bin/sequelize db:drop",
     "filldevdb": "cross-env NODE_ENV=development npm run migrate && cross-env NODE_ENV=development npm run seed",
     "filltestdb": "cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed",
     "coverage": "nyc report --reporter=text-lcov --reporter=lcov | coveralls"

@@ -1,36 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from '../../services/axios';
 import CircularIndeterminate from '../utils/spinner/spinner';
 import { BiAddToQueue } from 'react-icons/bi';
 import './group.css';
-import Typography from '@material-ui/core/Typography';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-const theme = createMuiTheme();
-
-theme.typography.h3 = {
-  fontSize: '1.2rem',
-  '@media (min-width:600px)': {
-    fontSize: '1.5rem',
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: '3%',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '3rem',
-  },
-};
-
-export default function Group(props) {
+export default function Group() {
   const [oneGroup, setOneGroup] = useState([]);
   const [group, setGroup] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const { id } = useParams();
+
   const fetchAGroup = async () => {
     setLoading(true);
-    // eslint-disable-next-line react/prop-types
-    const res = await axios.get(`/group/${props.match.params.id}`);
+    const res = await axios.get(`/group/${id}`);
     setLoading(false);
     setOneGroup(res.data.data);
     setGroup(res.data.data.emails);
@@ -50,9 +34,6 @@ export default function Group(props) {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Typography variant="h3">Hiya 👋</Typography>{' '}
-      </ThemeProvider>{' '}
       <div className="groups-box">
         {' '}
         <p className="group-text">

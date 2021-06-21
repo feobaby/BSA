@@ -1,4 +1,24 @@
-body {
+* {
+    box-sizing: border-box;
+}
+ 
+  /* Create three equal columns that floats next to each other */
+  .column {
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+.photo {
+    margin: 0;
     height: 100%;
-    border: 15px solid #42464e
+    width: 50vw;
 }

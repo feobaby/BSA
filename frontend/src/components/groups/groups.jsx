@@ -2,24 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from '../../services/axios';
 import CircularIndeterminate from '../utils/spinner/spinner';
-import { AiOutlineUsergroupDelete } from 'react-icons/ai';
+import { AiFillDelete } from 'react-icons/ai';
+import { FiEdit2 } from 'react-icons/fi';
 import './group.css';
-import Typography from '@material-ui/core/Typography';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-
-const theme = createMuiTheme();
-
-theme.typography.h3 = {
-  fontSize: '1.2rem',
-  '@media (min-width:600px)': {
-    fontSize: '1.5rem',
-    color: 'white',
-    textAlign: 'center',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '2rem',
-  },
-};
 
 export default function Groups() {
   const [groups, setGroups] = useState([]);
@@ -50,9 +35,9 @@ export default function Groups() {
     try {
       event.preventDefault();
       setLoading(true);
-      const delResource = await axios.delete(`/group/${id}`);
-      const { message, status } = delResource.data;
-      if (status === '200') alert.success(message);
+      const deleteGroup = await axios.delete(`/group/${id}`);
+      const { status } = deleteGroup.data;
+      if (status === 204) alert.success('Successful');
       window.location.reload();
     } catch (error) {
       setLoading(false);
@@ -64,20 +49,16 @@ export default function Groups() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Typography variant="h3">
-          Here are all the groups you have created.
-        </Typography>{' '}
-        <h3 className="groups-text">
-          {' '}
-          No. of groups created: {groupscount.count}
-        </h3>
-      </ThemeProvider>{' '}
+      <p className="welcome-text">Here are all the groups you have created.</p>
+      <h3 className="groups-text">
+        {' '}
+        No. of groups created: {groupscount.count}
+      </h3>
       <br />
       <div>
         {groups.map((item) => (
           <div key={item.id} className="groups-box">
-            <ul>
+            <ul className="group-list-style">
               {' '}
               <li>
                 {' '}
@@ -92,7 +73,15 @@ export default function Groups() {
                     {' '}
                     {item.name}{' '}
                   </Link>
-                  <AiOutlineUsergroupDelete
+                  <Link
+                    to={{
+                      pathname: `/update-group/${item.id}`,
+                    }}
+                  >
+                    <FiEdit2 />
+                  </Link>{' '}
+                  <AiFillDelete
+                    className="delete-icon"
                     onClick={(e) => {
                       const r = window.confirm(
                         'Do you really want to delete this group?',
@@ -109,7 +98,6 @@ export default function Groups() {
                   Description: {item.description}
                 </h2>
               </li>
-              <hr />
             </ul>
           </div>
         ))}
