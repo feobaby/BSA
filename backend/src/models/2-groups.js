@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     category: {
-      type: DataTypes.ENUM('Trips', 'Home', 'Movies', 'Other Outings', 'Functions'),
+      type: DataTypes.ENUM('Trips', 'Movies', 'Functions', 'Home Bills'),
       allowNull: false,
     },
     groupBalance: {
@@ -31,8 +31,7 @@ export default (sequelize, DataTypes) => {
     emails: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
+      unique: false,
     },
     description: {
       type: DataTypes.STRING,

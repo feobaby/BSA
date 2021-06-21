@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import CircularIndeterminate from '../utils/spinner/spinner';
 import axios from '../../services/axios';
 import { message as alert } from 'antd';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import 'antd/dist/antd.css';
 
-// material ui general style for used components
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -26,58 +23,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const theme = createMuiTheme();
-
-// style for typography
-theme.typography.h3 = {
-  fontSize: '1.2rem',
-  '@media (min-width:600px)': {
-    fontSize: '1.5rem',
-    color: 'white',
-    textAlign: 'center',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '2rem',
-  },
-};
-
 export default function DepositToGroupAccount(props) {
   const classes = useStyles();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [goalBalance, setGoalBalance] = useState(0);
   const [groupBalance, setGroupBalance] = useState(0);
   const [balance, setBalance] = useState(0);
 
-  useEffect(async () => {
+  const { id } = useParams();
+
+  const fetchAccount = async () => {
     setLoading(true);
-    // eslint-disable-next-line react/prop-types
-    const res = await axios.get(`/group/${props.match.params.id}`);
+    const res = await axios.get(`/group/${id}`);
     const resAcc = await axios.get('/account');
     setLoading(false);
     setGoalBalance(res.data.data.goalBalance);
     setGroupBalance(res.data.data.groupBalance);
     setBalance(resAcc.data.data.balance);
+  };
+
+  useEffect(() => {
+    fetchAccount();
   }, []);
 
-  const newBalance = parseFloat(balance - amount);
+  const newPersonalBalance =
+    Number(balance).toFixed(2) - Number(amount).toFixed(2);
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
       setLoading(true);
-      const depositGroupMoney = await axios.patch(
-        // eslint-disable-next-line react/prop-types
-        `/group/add-money/${props.match.params.id}`,
-        {
-          groupBalance,
-          goalBalance,
-          amount,
-        },
-      );
+      const depositGroupMoney = await axios.patch(`/group/add-money/${id}`, {
+        groupBalance,
+        goalBalance,
+        amount,
+      });
       await axios.patch('/account', {
-        balance: newBalance,
+        balance: newPersonalBalance,
       });
       const { status, message } = depositGroupMoney.data;
       if (status === 200) {
@@ -94,9 +78,7 @@ export default function DepositToGroupAccount(props) {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Typography variant="h3">Put some cash in ya group.</Typography>
-      </ThemeProvider>{' '}
+      <p className="welcome-text">Put some cash in ya group.</p>
       {loading && <CircularIndeterminate />}
       <Container align="center">
         <form className={classes.root} onSubmit={handleSubmit}>
@@ -123,6 +105,7 @@ export default function DepositToGroupAccount(props) {
             label="Group's Goal Balance"
             variant="outlined"
             type="number"
+            min="1"
             value={goalBalance}
             inputProps={{ readOnly: true }}
             InputProps={{
@@ -139,6 +122,7 @@ export default function DepositToGroupAccount(props) {
             label="Group's Current Balance"
             variant="outlined"
             type="number"
+            min="1"
             value={groupBalance}
             inputProps={{ readOnly: true }}
             InputProps={{
@@ -155,6 +139,7 @@ export default function DepositToGroupAccount(props) {
             label="Deposit Amount"
             variant="outlined"
             type="number"
+            min="1"
             value={amount}
             onChange={(e) => setAmount(+e.target.value)}
             InputProps={{

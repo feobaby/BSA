@@ -17,7 +17,6 @@ export default function Dashboard() {
     const res = await axios.get('/account');
     setLoading(false);
     setAccount(res.data.data);
-    console.log(res.data.data.balance);
   };
 
   useEffect(() => {
@@ -34,6 +33,10 @@ export default function Dashboard() {
 
   return (
     <>
+      <p align="center" className="welcome-text">
+        {' '}
+        Welcome!{' '}
+      </p>
       <div className="row">
         <div className="column">
           <div className="card">
@@ -55,8 +58,11 @@ export default function Dashboard() {
               {' '}
               <FiSettings className="imported-icons" />
             </div>
-            <h3>Profile settings</h3>{' '}
+            <h3>Account</h3> profile settings:{' '}
             <Link to={{ pathname: '/settings' }}>click here</Link>
+            <br />
+            show transaction logs:{' '}
+            <Link to={{ pathname: '/history' }}>click here</Link>
           </div>
         </div>
 
@@ -94,6 +100,9 @@ export default function Dashboard() {
             <h3>Groups</h3>
             <div>
               <p>
+                Create a group:{' '}
+                <Link to={{ pathname: '/create-group' }}>create</Link>
+                <br />
                 You created: <Link to={{ pathname: '/groups' }}>view</Link>
                 <br />
                 Part of:{'   '}

@@ -1,7 +1,13 @@
-.sign-in-text {
-    color: white;
-    font-size: xx-large;
-    text-align: center;
+.groups-box {
+    width: 50%;
+    height: 100%;  
+    padding: 20px;
+    border: 1px solid grey;
+    margin: 0px auto;
+}
+
+ul.history-list-style {
+    list-style-type: circle
 }
 
 .welcome-text {

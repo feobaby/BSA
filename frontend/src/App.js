@@ -10,7 +10,9 @@ import DepositToGroupAccount from './components/user-auth/deposit-money-to-group
 import Groups from './components/groups/groups';
 import PartGroups from './components/groups/part-of-group';
 import Group from './components/groups/get-a-group';
-import PrivateRoute from './components/utils/private-route/pr';
+import CreateGroup from './components/groups/create-group';
+import UpdateGroup from './components/groups/update-group';
+import TransactionHistory from './components/transactions/history';
 import './App.css';
 
 export default function App() {
@@ -25,12 +27,15 @@ export default function App() {
         <Route exact path="/groups" component={Groups} />
         <Route exact path="/group/:email" component={PartGroups} />
         <Route exact path="/add-money" component={DepositToPersonalAccount} />
+        <Route exact path="/create-group" component={CreateGroup} />
+        <Route exact path="/update-group/:id" component={UpdateGroup} />
         <Route
           exact
           path="/group-money/:id"
           component={DepositToGroupAccount}
         />
         <Route exact path="/one-group/:id" component={Group} />
+        <Route exact path="/history" component={TransactionHistory} />
       </Switch>
     </Router>
   );

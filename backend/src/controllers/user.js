@@ -2,9 +2,7 @@ import models from '../models';
 import { generateToken } from '../utils/index';
 import Helper from '../utils/bcrypt';
 
-const { Op } = require('sequelize');
-
-const { Users } = models;
+const { Users, Transactions } = models;
 const { hashPassword } = Helper;
 
 /**
@@ -85,7 +83,7 @@ export default class UsersController {
     const { userId } = req.user;
     try {
       const result = await Users.findOne({ where: { id: userId } });
-      return res.status(200).json({ status: '200', message: 'Successful!', data: result });
+      return res.status(200).json({ status: 200, message: 'Successful!', data: result });
     } catch (error) {
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }
@@ -101,18 +99,18 @@ export default class UsersController {
   static async updateAnAccount(req, res) {
     const { userId } = req.user;
     const {
-      firstName, lastName,
+      firstName, lastName, balance,
     } = req.body;
     try {
       await Users.findOne({ where: { id: userId } });
       await Users.update({
-        firstName, lastName,
+        firstName, lastName, balance,
       }, { where: { id: userId } });
       return res.status(200).json({
         status: 200,
         message: 'Successful!',
         data: {
-          firstName, lastName,
+          firstName, lastName, balance,
         },
       });
     } catch (error) {
@@ -132,12 +130,40 @@ export default class UsersController {
     const { userId } = req.user;
     const addToBalance = parseFloat(balance + amount);
     try {
+      await Transactions.create({
+        userId, amount,
+      });
       await Users.update({ balance: addToBalance }, { where: { id: userId } });
       return res.status(200).json({
         status: 200,
         message: 'Successful!',
         data: { newbalance: addToBalance },
       });
+    } catch (error) {
+      return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
+    }
+  }
+
+  /**
+   * @method getHistory
+   * @description Method for user to get transaction logs
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} Returns body object
+   */
+  static async getHistory(req, res) {
+    const { userId } = req.user;
+    try {
+      const result = await Transactions.findAll({
+        where: { userId },
+        order: [
+          ['createdAt', 'DESC'],
+        ],
+      });
+      if (!result) {
+        return res.status(404).json({ status: 404, error: 'You currently have no transaction logs!' });
+      }
+      return res.status(200).json({ status: 200, message: 'Successful!', data: result });
     } catch (error) {
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }

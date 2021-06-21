@@ -1,3 +1,19 @@
-body {
-    color:white
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
+
+.welcome-text {
+    color: white;
+    font-size: 35px;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 800px) {
+    .welcome-text {
+      font-size: 20px;
+    }
+} 

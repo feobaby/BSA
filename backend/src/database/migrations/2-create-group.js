@@ -23,7 +23,7 @@ export default {
         allowNull: false,
       },
       category: {
-        type: Sequelize.ENUM('Trips', 'Home', 'Movies', 'Other Outings', 'Functions'),
+        type: Sequelize.ENUM('Trips', 'Movies', 'Functions', 'Home Bills'),
         allowNull: false,
       },
       groupBalance: {
@@ -39,8 +39,6 @@ export default {
         type: Sequelize.DataTypes.ARRAY(Sequelize.STRING),
         allowNull: false,
         unique: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       },
       description: {
         type: Sequelize.STRING,
@@ -56,5 +54,5 @@ export default {
       },
     }));
   },
-  down: (queryInterface) => queryInterface.dropTable('Accounts'),
+  down: (queryInterface) => queryInterface.dropTable('Groups'),
 };

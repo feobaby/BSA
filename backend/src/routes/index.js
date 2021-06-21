@@ -6,7 +6,7 @@ import middlewares from '../middlewares';
 const { Authenticate } = middlewares;
 const { verifyToken } = Authenticate;
 const {
-  createUser, signInUser, getAnAccount, updateAnAccount, addMoney,
+  createUser, signInUser, getAnAccount, updateAnAccount, addMoney, getHistory,
 } = UsersController;
 const {
   createGroup, getAllGroups, getAGroup, deleteAGroup, updateAGroup,
@@ -27,10 +27,13 @@ router.post('/api/v1/auth/signin', signInUser);
 // Accounts
 router.get('/api/v1/account', verifyToken, getAnAccount);
 router.patch('/api/v1/account', verifyToken, updateAnAccount);
-router.patch('/api/v1/group/add-money/:id', verifyToken, depositMoneyToGroup);
 
 // Money
 router.patch('/api/v1/add-money', verifyToken, addMoney);
+router.patch('/api/v1/group/add-money/:id', verifyToken, depositMoneyToGroup);
+
+// History
+router.get('/api/v1/history', verifyToken, getHistory);
 
 // Groups
 router.post('/api/v1/create-group', verifyToken, createGroup);
