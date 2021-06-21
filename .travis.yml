@@ -13,7 +13,6 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 before_install: 
-  - npm run drop-test-db 
   - psql -c 'create database bsa_test_db;' -U postgres
   - cd backend
   - npm install
