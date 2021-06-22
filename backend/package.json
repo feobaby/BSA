@@ -4,6 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build src -s",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./build/app.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha src/tests/index --timeout 80000 --require @babel/register --recursive --exit || true",
     "start:dev": "cross-env NODE_ENV=development nodemon --exec babel-node ./src/app.js",
     "migrate": "node_modules/.bin/sequelize db:migrate",
@@ -11,6 +15,7 @@
     "drop-test-db": " cross-env NODE_ENV=test node_modules/.bin/sequelize db:drop",
     "filldevdb": "cross-env NODE_ENV=development npm run migrate && cross-env NODE_ENV=development npm run seed",
     "filltestdb": "cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed",
+    "fillproddb": "cross-env NODE_ENV=production npm run migrate && cross-env NODE_ENV=production npm run seed",
     "coverage": "nyc report --reporter=text-lcov --reporter=lcov | coveralls"
   },
   "repository": {
@@ -40,6 +45,7 @@
     "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.3",
     "@babel/node": "^7.14.2",
     "@babel/plugin-transform-runtime": "^7.14.3",
