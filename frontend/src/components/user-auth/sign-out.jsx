@@ -13,7 +13,7 @@ export default function SignOut() {
 
   const logout = () => {
     window.localStorage.clear();
-    window.location.replace('https://bsa-fibre.netlify.app/sign-in');
+    window.location.replace('/sign-in');
   };
 
   return (
