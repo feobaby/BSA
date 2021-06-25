@@ -10,12 +10,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignOut() {
   const classes = useStyles();
-  const baseUrl = 'http://localhost:8080/';
 
   const logout = () => {
     window.localStorage.clear();
-    window.location.href = baseUrl + 'sign-in';
+    window.location.replace('/sign-in');
   };
+
   return (
     <>
       <Button

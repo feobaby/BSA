@@ -1,9 +1,9 @@
 import axios from 'axios';
-
+import { baseUrl } from '../components/utils/baseURLs/baseurls';
 const token = localStorage.getItem('token');
 
 const instance = axios.create({
-  baseURL: 'https://bsa-backend.herokuapp.com/api/v1',
+  baseURL: baseUrl,
   headers: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
