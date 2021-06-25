@@ -32,6 +32,9 @@ export default function DepositToGroupAccount() {
   const [groupBalance, setGroupBalance] = useState(0);
   const [balance, setBalance] = useState(0);
 
+  //errors
+  const [amountError, setAmountError] = useState(false);
+
   const { id } = useParams();
 
   const fetchAccount = async () => {
@@ -53,6 +56,11 @@ export default function DepositToGroupAccount() {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      setAmountError(false);
+
+      if (amount == '') {
+        return setAmountError(true);
+      }
       setLoading(true);
       if (amount > balance) {
         setLoading(false);
@@ -138,6 +146,8 @@ export default function DepositToGroupAccount() {
           <br />
           <TextField
             style={{ width: '50%' }}
+            required
+            error={amountError}
             id="outlined-required"
             label="Deposit Amount"
             variant="outlined"
