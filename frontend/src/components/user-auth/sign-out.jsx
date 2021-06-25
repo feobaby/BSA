@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { baseUrl } from '../utils/baseURLs/baseurls';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -11,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignOut() {
   const classes = useStyles();
+  const baseUrl = 'https://bsa-fibre.netlify.app/';
 
   const logout = () => {
     window.localStorage.clear();
