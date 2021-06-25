@@ -10,12 +10,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignOut() {
   const classes = useStyles();
-  const logOutBaseUrl = 'https://bsa-fibre.netlify.app/';
 
   const logout = () => {
     window.localStorage.clear();
-    window.location.href = logOutBaseUrl + 'sign-in';
+    window.location.href = 'https://bsa-fibre.netlify.app/sign-in';
   };
+
   return (
     <>
       <Button
