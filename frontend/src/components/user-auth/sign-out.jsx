@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { logOutbaseUrl } from '../utils/baseURLs/baseurls';
+import { baseUrl } from '../utils/baseURLs/baseurls';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -14,7 +14,7 @@ export default function SignOut() {
 
   const logout = () => {
     window.localStorage.clear();
-    window.location.href = logOutbaseUrl + 'sign-in';
+    window.location.href = baseUrl + 'sign-in';
   };
   return (
     <>
