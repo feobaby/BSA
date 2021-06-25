@@ -47,6 +47,13 @@ export default function UpdateGroup(props) {
   const [description, setDescription] = useState('');
   const [goalBalance, setGoalBalance] = useState('');
 
+  //errors
+  const [nameError, setNameError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
+  const [emailsError, setEmailsError] = useState([false]);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [goalBalanceError, setGoalBalanceError] = useState(false);
+
   const { id } = useParams();
 
   useEffect(async () => {
@@ -64,18 +71,32 @@ export default function UpdateGroup(props) {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      setNameError(false);
+      setCategoryError(false);
+      setEmailsError(false);
+      setDescriptionError(false);
+      setGoalBalanceError(false);
+
+      switch (true) {
+        case name == '':
+          return setNameError(true);
+        case category == '':
+          return setCategoryError(true);
+        case emails == '':
+          return setEmailsError(true);
+        case description == '':
+          return setDescriptionError(true);
+        case goalBalance == '':
+          return setGoalBalanceError(true);
+      }
       setLoading(true);
-      const updateGroup = await axios.patch(
-        // eslint-disable-next-line react/prop-types
-        `/group/${props.match.params.id}`,
-        {
-          name,
-          category,
-          emails,
-          description,
-          goalBalance,
-        },
-      );
+      const updateGroup = await axios.patch(`/group/${id}`, {
+        name,
+        category,
+        emails,
+        description,
+        goalBalance,
+      });
       const { status, message } = updateGroup.data;
       if (status === 200) {
         alert.success(message);
@@ -101,6 +122,8 @@ export default function UpdateGroup(props) {
         <form className={classes.root} onSubmit={handleSubmit}>
           <TextField
             style={{ width: '52%' }}
+            required
+            error={nameError}
             id="outlined-required"
             label="Name"
             variant="outlined"
@@ -119,6 +142,8 @@ export default function UpdateGroup(props) {
             variant="outlined"
             className={classes.formControl}
             style={{ width: '52%' }}
+            required
+            error={categoryError}
           >
             <InputLabel
               htmlFor="outlined-age-native-simple"
@@ -150,6 +175,8 @@ export default function UpdateGroup(props) {
               backgroundColor: '#1D2026',
               borderRadius: '4px',
             }}
+            required
+            error={emailsError}
             id="outlined-required"
             label="Add Emails"
             variant="outlined"
@@ -167,6 +194,8 @@ export default function UpdateGroup(props) {
               backgroundColor: '#1D2026',
               borderRadius: '4px',
             }}
+            required
+            error={descriptionError}
             id="outlined-required"
             label="Description"
             variant="outlined"
@@ -177,6 +206,8 @@ export default function UpdateGroup(props) {
           <br />
           <TextField
             style={{ width: '52%' }}
+            required
+            error={goalBalanceError}
             id="outlined-required"
             label="Money Goals"
             variant="outlined"

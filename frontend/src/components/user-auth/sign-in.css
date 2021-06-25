@@ -9,6 +9,16 @@
     color: white;
 }
 
+.input-sign-in {
+    border: 1px dashed red;
+  }
+
+.sign-in-photo {
+  height: 30vh;
+  margin-left: 40%;
+  justify-items: center;
+}  
+  
 /* Responsive columns */
 @media screen and (max-width: 800px) {
     .welcome-text {

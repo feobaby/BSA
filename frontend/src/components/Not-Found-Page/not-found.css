@@ -1,0 +1,11 @@
+.not-found-page {
+    font-size: 80px;
+    margin-top: 10%;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 800px) {
+    .not-found-page{
+        font-size: 50px;
+    }
+} 

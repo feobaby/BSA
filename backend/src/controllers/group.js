@@ -96,6 +96,9 @@ export default class GroupsController {
         where: {
           emails: { [Op.contains]: [email] },
         },
+        order: [
+          ['createdAt', 'DESC'],
+        ],
       });
       if (!result) {
         return res.status(404).json({
@@ -170,7 +173,7 @@ export default class GroupsController {
       const newBalance = parseFloat(balance - amount);
 
       // if the amount you want to depost exceeds your personal balance
-      if (parseFloat(amount > balance)) {
+      if (amount > balance) {
         return res.status(400).json({ status: 400, error: 'Lol, you do not have enough money now.' });
       }
       // if the amount you want to add exceeds the amount goals
@@ -179,7 +182,7 @@ export default class GroupsController {
       }
       // if a user is still trying to add money after the the amount goals is already met
       if (goalBalance === groupBalance) {
-        return res.status(400).json({ status: 400, error: 'Nah! You can not add any more money.' });
+        return res.status(400).json({ status: 400, error: 'Nah! You can not add any more money. It\'s already complete.' });
       }
       // if an amount that is trying to be added exceeds remaining amount that should be added
       if (amount > checkRemainingBalance) {
@@ -190,7 +193,12 @@ export default class GroupsController {
       });
       await Groups.update({ groupBalance: addToBalance }, { where: { id } });
       await Users.update({ balance: newBalance }, { where: { id: userId } });
-      return res.status(200).json({ status: 200, message: 'Successful!' });
+      return res.status(200).json({
+        status: 200,
+        message: 'Successful!',
+        personalBalance: newBalance,
+        currentGroupBalance: addToBalance,
+      });
     } catch (error) {
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }

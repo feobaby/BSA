@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DepositToGroupAccount(props) {
+export default function DepositToGroupAccount() {
   const classes = useStyles();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
@@ -48,13 +48,16 @@ export default function DepositToGroupAccount(props) {
     fetchAccount();
   }, []);
 
-  const newPersonalBalance =
-    Number(balance).toFixed(2) - Number(amount).toFixed(2);
+  const newPersonalBalance = parseFloat(balance - amount);
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
       setLoading(true);
+      if (amount > balance) {
+        setLoading(false);
+        return alert.error('Insufficient balance.');
+      }
       const depositGroupMoney = await axios.patch(`/group/add-money/${id}`, {
         groupBalance,
         goalBalance,

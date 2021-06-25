@@ -6,14 +6,15 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0; 
 }
 
-.welcome-text {
+.account-welcome-text {
     color: white;
-    font-size: 35px;
+    font-size: 30px;
+    text-align: center;
 }
 
 /* Responsive columns */
 @media screen and (max-width: 800px) {
-    .welcome-text {
+    .account-welcome-text {
       font-size: 20px;
     }
 } 
