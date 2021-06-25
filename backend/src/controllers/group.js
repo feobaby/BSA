@@ -193,7 +193,12 @@ export default class GroupsController {
       });
       await Groups.update({ groupBalance: addToBalance }, { where: { id } });
       await Users.update({ balance: newBalance }, { where: { id: userId } });
-      return res.status(200).json({ status: 200, message: 'Successful!' });
+      return res.status(200).json({
+        status: 200,
+        message: 'Successful!',
+        personalBalance: newBalance,
+        currentGroupBalance: addToBalance,
+      });
     } catch (error) {
       return res.status(500).json({ status: 500, error: 'Oops, there\'s an error!' });
     }
