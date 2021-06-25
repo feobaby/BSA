@@ -5,6 +5,7 @@ import axios from '../../services/axios';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import standing from '../../assets/images/standing.png';
 import { message as alert } from 'antd';
 import 'antd/dist/antd.css';
 import './edit-account.css';
@@ -32,6 +33,10 @@ export default function EditAccount() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
+  //errors
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
+
   useEffect(async () => {
     setLoading(true);
     const res = await axios.get('/account');
@@ -43,6 +48,15 @@ export default function EditAccount() {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      setFirstNameError(false);
+      setLastNameError(false);
+
+      if (firstName == '') {
+        return setFirstNameError(true);
+      } else if (lastName == '') {
+        return setLastNameError(true);
+      }
+
       setLoading(true);
       const editAccount = await axios.patch('/account', {
         firstName,
@@ -60,12 +74,23 @@ export default function EditAccount() {
 
   return (
     <>
-      <p className="welcome-text">Want to make some changes to your profile?</p>
+      <p className="edit-account-welcome-text">
+        Want to make some changes to your profile?
+      </p>
       {loading && <CircularIndeterminate />}
+      <div align="center">
+        <img
+          src={standing}
+          className="edit-account-standing-photo"
+          alt="profile picture"
+        />
+      </div>
       <Container align="center">
         <form className={classes.root} onSubmit={handleSubmit}>
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
+            required
+            error={firstNameError}
             id="outlined-required"
             label="First Name"
             variant="outlined"
@@ -81,6 +106,8 @@ export default function EditAccount() {
           <br />
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
+            required
+            error={lastNameError}
             id="outlined-required"
             label="Last Name"
             variant="outlined"

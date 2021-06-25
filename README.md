@@ -4,8 +4,9 @@
 <p>For Context: A user can sign up and create a group by adding others through their emails. Users can 
 check what groups they are part of and donate money towards the group's money goals.</p>
 
-## Badges for Backend tests
+## Relevant Badges
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/65e0c6e8-0535-47f1-a37c-653a8f8bce97/deploy-status)](https://app.netlify.com/sites/bsa-fibre/deploys)
 [![Build Status](https://www.travis-ci.com/codeliezel/Fullstack-bill-sharing-app.svg?branch=main)](https://www.travis-ci.com/codeliezel/Fullstack-bill-sharing-app)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d3de7cb6253766bcf279/maintainability)](https://codeclimate.com/github/codeliezel/Fullstack-bill-sharing-app/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d3de7cb6253766bcf279/test_coverage)](https://codeclimate.com/github/codeliezel/Fullstack-bill-sharing-app/test_coverage)
@@ -21,11 +22,22 @@ check what groups they are part of and donate money towards the group's money go
 7.  Run `yarn start` to power the frontend.
 8. Run `npm run test` to run tests for the backend server
 
+## :heart: Hosted Links
+
+For backend using Heroku - https://bsa-backend.herokuapp.com/
+For frontend using Netlify - https://bsa-fibre.netlify.app/
+
 ## :star: Technologies Used
 
-1. Node.js & Expressjs
-2. React
+1. JavaScript & Node.js & Expressjs
+2. React with Ant design, Material UI
 3. Postgres
+4. ElephantSQL 
+5. Netlify
+6. Heroku
+7. Travis CI
+8. Code Climate
+9. Open Peeps
 
 ## :sunny: Sample .env file format
 
@@ -212,6 +224,12 @@ DELETE `localhost:3000/api/v1/group/:id`
 
 Note: copy the `token` gotten from the sign up/in response and add it to the Bearer `token` field in postman.
 
+<h4>14. You can get transaction history/logs:</h4>
+   
+GET `localhost:3000/api/v1/history` 
+
+Note: copy the `token` gotten from the sign up/in response and add it to the Bearer `token` field in postman.
+
 #
 #
 
@@ -226,3 +244,4 @@ Note: copy the `token` gotten from the sign up/in response and add it to the Bea
 7. For user to get just one group: `localhost:8080/api/v1/one-group/:id`
 8. For user to deposit money to personal account: `localhost:8080/api/v1/add-money/:id`
 9. For user to deposit money to group: `localhost:8080/api/v1/group-money/:id`
+10. For user to get transaction logs: `localhost:8080/api/v1/history`

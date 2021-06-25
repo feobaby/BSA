@@ -13,6 +13,8 @@ import Group from './components/groups/get-a-group';
 import CreateGroup from './components/groups/create-group';
 import UpdateGroup from './components/groups/update-group';
 import TransactionHistory from './components/transactions/history';
+import NotFoundPage from './components/Not-Found-Page/not-found-page';
+import PrivateRoute from './components/user-auth/private-route';
 import './App.css';
 
 export default function App() {
@@ -36,6 +38,7 @@ export default function App() {
         />
         <Route exact path="/one-group/:id" component={Group} />
         <Route exact path="/history" component={TransactionHistory} />
+        <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
   );

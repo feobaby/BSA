@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import CircularIndeterminate from '../utils/spinner/spinner';
 import axios from '../../services/axios';
 import Container from '@material-ui/core/Container';
@@ -25,16 +25,35 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  //errors
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      setFirstNameError(false);
+      setLastNameError(false);
+      setEmailError(false);
+      setPasswordError(false);
+
+      if (firstName == '') {
+        return setFirstNameError(true);
+      } else if (lastName == '') {
+        return setLastNameError(true);
+      } else if (email == '') {
+        return setEmailError(true);
+      } else if (password == '') {
+        return setPasswordError(true);
+      }
       setLoading(true);
       const userData = await axios.post('/auth/user', {
         firstName,
@@ -44,9 +63,9 @@ export default function SignUp() {
       });
       const { status, token } = userData.data;
       if (status === 201) {
-        history.push('/dashboard');
+        localStorage.setItem('token', token);
+        window.location.replace('/dashboard');
       }
-      window.localStorage.setItem('token', token);
     } catch (error) {
       setLoading(false);
       if (error.response.status === 409) {
@@ -63,6 +82,8 @@ export default function SignUp() {
         <form className={classes.root} onSubmit={handleSubmit}>
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
+            required
+            error={firstNameError}
             id="outlined-required"
             label="First Name"
             variant="outlined"
@@ -79,6 +100,8 @@ export default function SignUp() {
           <br />
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
+            required
+            error={lastNameError}
             id="outlined-required"
             label="Last Name"
             value={lastName}
@@ -95,6 +118,8 @@ export default function SignUp() {
           <br />
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
+            required
+            error={emailError}
             id="outlined-required"
             label="Email"
             variant="outlined"
@@ -111,6 +136,8 @@ export default function SignUp() {
           <br />
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
+            required
+            error={passwordError}
             id="outlined-required"
             label="Password"
             variant="outlined"
@@ -132,7 +159,16 @@ export default function SignUp() {
           type="submit"
           onClick={handleSubmit}
         >
-          Send
+          Sign Up
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/"
+          className={classes.button}
+        >
+          Go Home
         </Button>
       </Container>
     </>

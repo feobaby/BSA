@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import cash from '../../assets/images/cash.png';
 import { message as alert } from 'antd';
 import 'antd/dist/antd.css';
 import './deposit-money.css';
@@ -31,6 +32,9 @@ export default function DepositToPersonalAccount() {
   const [amount, setAmount] = useState('');
   const [balance, setBalance] = useState(0);
 
+  //errors
+  const [amountError, setAmountError] = useState(false);
+
   useEffect(async () => {
     setLoading(true);
     const res = await axios.get('/account');
@@ -45,6 +49,11 @@ export default function DepositToPersonalAccount() {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      setAmountError(false);
+
+      if (amount == '') {
+        return setAmountError(true);
+      }
       setLoading(true);
       const depositMoneyData = await axios.patch('/add-money', {
         balance,
@@ -63,10 +72,19 @@ export default function DepositToPersonalAccount() {
 
   return (
     <>
-      <p className="welcome-text"> Put some more cash into ya account.</p>
-      <br />
+      <p className="account-welcome-text">
+        {' '}
+        Put some more cash into ya account.
+      </p>
       {loading && <CircularIndeterminate />}
       <Container align="center">
+        <div>
+          <img
+            src={cash}
+            className="standing-photo"
+            alt="top up balance picture"
+          />
+        </div>
         <form className={classes.root} onSubmit={handleSubmit}>
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
@@ -85,6 +103,8 @@ export default function DepositToPersonalAccount() {
           />
           <TextField
             style={{ width: '50%', color: '#ffffff' }}
+            required
+            error={amountError}
             id="outlined-required"
             label="Amount"
             variant="outlined"

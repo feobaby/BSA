@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Switch, useHistory } from 'react-router-dom';
 import axios from '../../services/axios';
 import CircularIndeterminate from '../utils/spinner/spinner';
 import Container from '@material-ui/core/Container';
@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { message as alert } from 'antd';
+import group from '../../assets/images/group.png';
 import './group.css';
 import 'antd/dist/antd.css';
 
@@ -47,9 +48,34 @@ export default function CreateGroup() {
   const [description, setDescription] = useState('');
   const [goalBalance, setGoalBalance] = useState('');
 
+  //errors
+  const [nameError, setNameError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
+  const [emailsError, setEmailsError] = useState([false]);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [goalBalanceError, setGoalBalanceError] = useState(false);
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      setNameError(false);
+      setCategoryError(false);
+      setEmailsError(false);
+      setDescriptionError(false);
+      setGoalBalanceError(false);
+
+      switch (true) {
+        case name == '':
+          return setNameError(true);
+        case category == '':
+          return setCategoryError(true);
+        case emails == '':
+          return setEmailsError(true);
+        case description == '':
+          return setDescriptionError(true);
+        case goalBalance == '':
+          return setGoalBalanceError(true);
+      }
       setLoading(true);
       const createGroup = await axios.post('/create-group', {
         name,
@@ -75,6 +101,9 @@ export default function CreateGroup() {
     <>
       {loading && <CircularIndeterminate />}
       <Container align="center">
+        <div>
+          <img src={group} className="photo" alt="cover picture" />
+        </div>
         <p align="center" className="welcome-text">
           {' '}
           Create a Group.{' '}
@@ -82,6 +111,8 @@ export default function CreateGroup() {
         <form className={classes.root} onSubmit={handleSubmit}>
           <TextField
             style={{ width: '52%' }}
+            required
+            error={nameError}
             id="outlined-required"
             label="Name"
             variant="outlined"
@@ -100,6 +131,8 @@ export default function CreateGroup() {
             variant="outlined"
             className={classes.formControl}
             style={{ width: '52%' }}
+            required
+            error={categoryError}
           >
             <InputLabel
               htmlFor="outlined-age-native-simple"
@@ -131,6 +164,8 @@ export default function CreateGroup() {
               backgroundColor: '#1D2026',
               borderRadius: '4px',
             }}
+            required
+            error={emailsError}
             id="outlined-required"
             label="Add Emails"
             variant="outlined"
@@ -148,6 +183,8 @@ export default function CreateGroup() {
               backgroundColor: '#1D2026',
               borderRadius: '4px',
             }}
+            required
+            error={descriptionError}
             id="outlined-required"
             label="Description"
             variant="outlined"
@@ -158,6 +195,8 @@ export default function CreateGroup() {
           <br />
           <TextField
             style={{ width: '52%' }}
+            required
+            error={goalBalanceError}
             id="outlined-required"
             label="Money Goals"
             variant="outlined"
