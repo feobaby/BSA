@@ -1,7 +1,0 @@
-version: "2"
-exclude_patterns:
-  - "backend/src/database/"
-  - "backend/src/models/"
-  - "backend/src/middlewares/"
-  - "backend/src/tests/"
-  - "frontend/src/"
