@@ -1,0 +1,11 @@
+require("@babel/register");
+const path = require('path')
+
+require("dotenv").config();
+
+module.exports = {
+  config: path.resolve('./database/Config/config.json'),
+  'models-path': path.resolve('./database/Sequelize'),
+  'seeders-path': path.resolve('./database/Seeders'),
+  'migrations-path': path.resolve('./database/Migrations'),
+}
