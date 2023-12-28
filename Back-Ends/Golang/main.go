@@ -1,17 +1,15 @@
 package main
 
 import (
-	"net/http"
-
+	"github.com/feobaby/bsa/api"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
-	r.GET("/hi", func(c *gin.Context) {
-	  c.JSON(http.StatusOK, gin.H{
-		"message": "Welcome to BSA!",
-	  })
-	})
-	r.Run(":8080") // listen and serve on 0.0.0.0:8080 
-  }
+
+	r = api.Route(r)
+
+	r.Run(":3000")
+
+}
