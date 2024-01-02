@@ -20,11 +20,14 @@ export default class AccountsController {
       const { userId } = req.user;
 
       const { balance, amount } = req.body;
-      const addToBalance = balance + amount;
-      await accounts.update({ balance: addToBalance }, { where: { userId } });
+      const addToBalance = parseFloat(balance + amount).toFixed(2);
+      const updateWalletBalance = await accounts.update(
+        { balance: addToBalance },
+        { where: { userId } },
+      );
       const account = await accounts.findOne({ where: { userId } });
 
-      await transactions.create({
+      const createTransaction = await transactions.create({
         userId,
         accountId: account.id,
         amount,
@@ -34,6 +37,8 @@ export default class AccountsController {
       return res.status(200).json({
         status: OK,
         message: Msg_Update_Success,
+        updateWalletBalance,
+        createTransaction,
       });
     } catch (error) {
       return res

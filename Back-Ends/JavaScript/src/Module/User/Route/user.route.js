@@ -2,7 +2,6 @@ import express from "express";
 import UsersController from "../Controller/user.controller.js";
 import UsersValidationController from "../Validation/user.validation.js";
 import Authenticate from "../../Middlewares/authenticate.js";
-import validate from "../../Middlewares/validator.js";
 
 const router = express.Router();
 
@@ -11,14 +10,8 @@ const { validateUserEmail, verifyPassword, verifyifEmailExists } =
   UsersValidationController;
 const { verifyToken } = Authenticate;
 
-router.post("/signup", validate("userRegister"), validateUserEmail, createUser);
-router.post(
-  "/signin",
-  validate("userLogin"),
-  verifyifEmailExists,
-  verifyPassword,
-  signInUser,
-);
+router.post("/signup", validateUserEmail, createUser);
+router.post("/signin", verifyifEmailExists, verifyPassword, signInUser);
 router.get("/profile", verifyToken, fetchProfile);
 
 export default router;

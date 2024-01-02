@@ -4,9 +4,9 @@ export default {
       "transactions",
       [
         {
-          id: "1",
-          userId: "1",
-          accountId: "1",
+          id: "1000",
+          userId: "1000",
+          accountId: "1000",
           amount: 20,
           referenceNo: "ueebbe-388373-00dkdm",
           category: "group-deposit",

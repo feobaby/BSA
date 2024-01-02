@@ -4,8 +4,8 @@ export default {
       "groups",
       [
         {
-          id: "1",
-          userId: "1",
+          id: "1000",
+          userId: "1000",
           name: "Spartans",
           description: "Fun time with fam.",
           category: "Functions",
