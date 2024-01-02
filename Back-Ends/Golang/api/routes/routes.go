@@ -1,10 +1,13 @@
-package routes
+package api
 
 import (
-	"github.com/feobaby/bsa/api/controllers"
+	"github.com/feobaby/BSA/Back-Ends/Golang/api/controllers"
 	"github.com/gin-gonic/gin"
 )
 
-func Route(router *gin.RouterGroup) {
-	router.POST("/users", controllers.CreateUser)
+func Route(r *gin.RouterGroup) {
+
+	r.POST("/users", controllers.CreateUser)
+
+	return
 }

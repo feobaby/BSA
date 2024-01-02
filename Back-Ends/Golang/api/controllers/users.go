@@ -3,11 +3,11 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/feobaby/bsa/api/auth"
-	db "github.com/feobaby/bsa/api/database"
-	"github.com/feobaby/bsa/api/models"
-	"github.com/feobaby/bsa/api/structs"
-	"github.com/feobaby/bsa/api/utils"
+	"github.com/feobaby/BSA/Back-Ends/Golang/api/auth"
+	"github.com/feobaby/BSA/Back-Ends/Golang/api/database"
+	"github.com/feobaby/BSA/Back-Ends/Golang/api/models"
+	"github.com/feobaby/BSA/Back-Ends/Golang/api/structs"
+	"github.com/feobaby/BSA/Back-Ends/Golang/api/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,7 +19,7 @@ func CreateUser(c *gin.Context) {
 
 	var hash, error = utils.Hash(body.Password)
 	if error != nil {
-		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"status": http.StatusConflict})
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"status": http.StatusUnauthorized})
 		return
 	}
 
@@ -30,7 +30,12 @@ func CreateUser(c *gin.Context) {
 		LastName:    body.LastName,
 		Role:        "user",
 	}
-		result := db.DB.Create(&user)
+		var result = database.DB.Create(&user)
 		token, _ := auth.CreateToken(user.ID)
-		c.JSON(http.StatusCreated, gin.H{"data": result, "token": token})
+
+		if(result.Error != nil){
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError, "message": "Soemthing happened.. account can not be created"})
+			return
+		   } 
+		c.JSON(http.StatusCreated, gin.H{"data": user, "token": token})
 	}

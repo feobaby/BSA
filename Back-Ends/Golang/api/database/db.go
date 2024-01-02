@@ -1,21 +1,24 @@
 package database
 
 import (
+	"fmt"
+	"log"
 
-	// imports the postgres driver
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
-
-// DB ...
-var DB *gorm.DB
-
-func connectToPostgreSQL() (*gorm.DB, error) {
+   
+   var DB *gorm.DB
+   
+   func ConnectToDB() {
+	var err error;
 	dsn := "user=postgres password=postgres dbname=bsa host=localhost port=5432 sslmode=disable"
-    DB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	fmt.Println(err)
     if err != nil {
-        return nil, err
-    }
-
-    return DB, nil
+		fmt.Println("Cannot connect to the database", DB)
+		log.Fatal("This is the error:", err)
+	} else {
+		fmt.Println("You are connected to the database", DB)
+	} 
 }
