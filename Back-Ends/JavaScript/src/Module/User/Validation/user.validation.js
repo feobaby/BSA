@@ -28,7 +28,9 @@ export default class UsersValidationController {
       }
       return next();
     } catch (error) {
-      console.log(error);
+      return res
+      .status(INTERNAL_SERVER_ERROR)
+      .json({ status: INTERNAL_SERVER_ERROR, error: Msg_Server_Error });
     }
   }
 
@@ -62,7 +64,9 @@ export default class UsersValidationController {
         return next();
       }
     } catch (error) {
-      console.log(error);
+      return res
+        .status(INTERNAL_SERVER_ERROR)
+        .json({ status: INTERNAL_SERVER_ERROR, error: Msg_Server_Error });
     }
   }
 }

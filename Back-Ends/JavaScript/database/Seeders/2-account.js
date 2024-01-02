@@ -4,8 +4,8 @@ export default {
       "accounts",
       [
         {
-          id: "1",
-          userId: "1",
+          id: "1000",
+          userId: "1000",
           balance: 100,
           createdAt: new Date(),
           updatedAt: new Date(),

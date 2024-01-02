@@ -9,12 +9,12 @@ export default {
       "users",
       [
         {
-          id: "1",
+          id: "1000",
           email: "funmi@gmail.com",
           password: hash,
-          firstName: "Francis",
-          lastName: "Xavier",
-          role: "User",
+          firstName: "Funmi",
+          lastName: "Baby",
+          role: "user",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

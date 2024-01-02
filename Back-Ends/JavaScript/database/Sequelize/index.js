@@ -7,7 +7,9 @@ import transactions from "../../src/Module/Transaction/Model/transaction.model.j
 
 config();
 
-const sequelize = new Sequelize(process.env.DEV_DATABASE_URL || process.env.TEST_DATABASE_URL);
+const sequelize = new Sequelize(
+  process.env.DEV_DATABASE_URL || process.env.TEST_DATABASE_URL,
+);
 const db = {};
 
 sequelize
