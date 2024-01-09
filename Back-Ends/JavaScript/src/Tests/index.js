@@ -1,3 +1,4 @@
 import "./users.test.js";
-// import "./groups";
-// import "./transactions";
+import "./accounts.test.js";
+import "./groups.test.js";
+import "./transactions.test.js";

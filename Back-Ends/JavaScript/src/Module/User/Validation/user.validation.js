@@ -29,8 +29,8 @@ export default class UsersValidationController {
       return next();
     } catch (error) {
       return res
-      .status(INTERNAL_SERVER_ERROR)
-      .json({ status: INTERNAL_SERVER_ERROR, error: Msg_Server_Error });
+        .status(INTERNAL_SERVER_ERROR)
+        .json({ status: INTERNAL_SERVER_ERROR, error: Msg_Server_Error });
     }
   }
 

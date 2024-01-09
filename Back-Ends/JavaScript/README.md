@@ -17,6 +17,7 @@
 3. Expressjs
 4. Sequelize ORM
 5. PostgreSQL
+6. Mocha & Chai
 
 ## :sunny: Sample .env file format
 
