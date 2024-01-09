@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "cd Back-Ends && cd JavaScript && yarn install",
     "start": "cd backend && npm start",
-    "test": "cd Back-Ends && cd JavaScript && yarn test"
+    "test": "cd Back-Ends && cd JavaScript && yarn run test-git"
   },
   "repository": {
     "type": "git",
