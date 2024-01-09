@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "cd Back-Ends && cd JavaScript && yarn install",
-    "start": "cd backend && npm start"
+    "start": "cd backend && npm start",
+    "test": "cd Back-Ends && cd JavaScript && yarn test"
   },
   "repository": {
     "type": "git",
