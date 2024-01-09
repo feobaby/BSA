@@ -9,7 +9,7 @@
     "build": "npm run clean && npm run build-babel",
     "start": "npm run build && node ../JavaScript/build/app.js",
     "test": "yarn run fill-test-db && cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha src/tests/index --timeout 80000 --require @babel/register --recursive --experimental-modules --exit || true",
-    "test-git": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha src/tests/index.test.js --timeout 80000 --require @babel/register --recursive --experimental-modules --exit || true",
+    "test-git": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha src/tests/ --timeout 80000 --require @babel/register --recursive --experimental-modules --exit || true",
     "start:dev": "cross-env NODE_ENV=development nodemon --exec babel-node ../JavaScript/src/app.js",
     "migrate": "npx sequelize db:migrate",
     "seed": "npx sequelize db:seed:all",
