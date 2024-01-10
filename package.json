@@ -4,8 +4,9 @@
   "description": "<p> A simple project that allows friends share bills together.</p> <p>For Context: A user can sign up and create a group by adding others through their emails. Users can  check what groups they are part of and donate money towards the group's money goals.</p>",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd backend && npm install",
-    "start": "cd backend && npm start"
+    "postinstall": "cd Back-Ends && cd JavaScript && yarn install",
+    "start": "cd backend && npm start",
+    "test": "cd Back-Ends && cd JavaScript && yarn run test-git"
   },
   "repository": {
     "type": "git",
