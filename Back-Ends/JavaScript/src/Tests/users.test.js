@@ -73,7 +73,6 @@ describe("Users test", () => {
         password: "dele",
       })
       .end((err, res) => {
-        console.log(err);
         chai.expect(res.status).to.be.equal(404);
         done();
       });
@@ -87,7 +86,6 @@ describe("Users test", () => {
         password: "delle",
       })
       .end((err, res) => {
-        console.log(err);
         chai.expect(res.status).to.be.equal(401);
         done();
       });

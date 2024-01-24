@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import {
   useAppDispatch,
   useAppSelector,
-} from '../../Redux/Utils/Redux-Ts-Hooks/hooks';
-import { userSignUp } from '../../Redux/Actions/auth.actions';
-import styles from './sign-up.module.css';
+} from '../../Utils/Redux-Ts-Hooks/hooks';
+import { userSignUpAction } from '../../Redux/Actions/Auth/auth.actions';
+import styles from './auth.module.css';
 import {
   FormControl,
   FormLabel,
@@ -14,22 +14,35 @@ import {
   Button,
   Stack,
   Checkbox,
-} from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import {
   Alert,
   AlertIcon,
-  AlertTitle,
   AlertDescription,
+  CloseButton,
 } from '@chakra-ui/react';
+import {
+  startLoading,
+  stopLoading,
+} from '../../Redux/Slices/General/Load/load.slice';
+import {
+  showAlert,
+  stopAlert,
+} from '../../Redux/Slices/General/Alert/alert.slice';
 
 const SignUp: React.FC = () => {
-  const [showAlert, setShowAlert] = useState<Boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
   const [isChecked, setIsChecked] = useState(false);
-  const { loading } = useAppSelector((state) => state.load);
+  const { loading } = useAppSelector((state) => state.loader);
+  const { alert } = useAppSelector((state) => state.alert);
+
+  const dispatch = useAppDispatch();
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
+  };
+  const handleCloseButtonClick = () => {
+    dispatch(stopLoading());
+    dispatch(stopAlert());
   };
 
   const [formData, setFormData] = useState({
@@ -37,10 +50,8 @@ const SignUp: React.FC = () => {
     lastName: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
-
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleInputChange = (e: any) => {
     setFormData({
@@ -48,32 +59,69 @@ const SignUp: React.FC = () => {
       [e.target.name]: e.target.value,
     });
   };
+
   const handleFormSubmit = async (e: any) => {
     try {
+      dispatch(startLoading());
+      const { firstName, lastName, email, password, confirmPassword } =
+        formData;
       e.preventDefault();
       if (!isChecked) {
-        setShowAlert(true);
+        dispatch(showAlert());
+        setErrorMessage('Please read the T & Cs and click on the checkbox.');
         return;
       }
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      const { firstName, lastName, email, password } = formData;
-      dispatch(userSignUp({ firstName, lastName, email, password }));
-      navigate('/dash');
-    } catch (error) {
-      console.error(error);
-      setShowAlert(true);
+      if (password !== confirmPassword) {
+        dispatch(showAlert());
+        setErrorMessage('The passwords do not match.');
+        return;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await dispatch(
+        userSignUpAction({
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+        }),
+      );
+      if (response.status === 201) {
+        dispatch(showAlert());
+        setSuccessMessage('Welcome!');
+        return;
+      }
+    } catch (error: any) {
+      dispatch(stopLoading());
+      if (error.response.status === 409) {
+        dispatch(showAlert());
+        setErrorMessage('Sorry, but you will have to choose another email.');
+        return;
+      } else {
+        dispatch(showAlert());
+        setErrorMessage('Please try again, an error occured.');
+        return;
+      }
     }
   };
 
   return (
     <>
-      {showAlert && (
-        <Alert status="error">
+      {alert && (
+        <Alert status={errorMessage ? 'error' : 'success'}>
           <AlertIcon />
-          <AlertTitle>Error!</AlertTitle>
-          <AlertDescription>Email/ Password Did Not Matched.</AlertDescription>
+          <AlertDescription>{errorMessage || successMessage}</AlertDescription>
+          <CloseButton
+            as="button"
+            bg="#2c2c2c"
+            color="white"
+            size="md"
+            onClick={handleCloseButtonClick}
+            className={styles.closeBtn}
+          />
         </Alert>
       )}
+
       <Center>
         <Box w="40%" p={4} className={styles.boxCenter}>
           <Stack>
@@ -82,7 +130,7 @@ const SignUp: React.FC = () => {
               <Input
                 className={styles.formInput}
                 type="text"
-                id="fname"
+                id="firstName"
                 name="firstName"
                 placeholder="First Name"
                 value={formData.firstName}
@@ -90,66 +138,74 @@ const SignUp: React.FC = () => {
                 focusBorderColor="#F2D2BD"
                 required
               />
-              <FormControl />
-              <br />
-              <FormControl isRequired>
-                <FormLabel>Last Name</FormLabel>
-                <Input
-                  className={styles.formInput}
-                  type="text"
-                  id="lname"
-                  name="lastName"
-                  placeholder="Last Name"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  focusBorderColor="#F2D2BD"
-                  required
-                />
-              </FormControl>
-              <br />
-              <FormControl isRequired>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  type="text"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  focusBorderColor="#F2D2BD"
-                  required
-                />
-              </FormControl>
-              <br />
-              <FormControl isRequired>
-                <FormLabel>Password</FormLabel>
-                <Input
-                  type="text"
-                  id="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  focusBorderColor="#F2D2BD"
-                />
-              </FormControl>
-              <br />
-              <Stack>
-                <Center>
-                  <Checkbox
-                    _checked={{
-                      '& .chakra-checkbox__control': { background: '#FFF' },
-                    }}
-                    borderColor="#FFF"
-                    iconColor="black"
-                    isChecked={isChecked}
-                    onChange={handleCheckboxChange}
-                  >
-                    Are all <u>Terms and Conditions</u> read?
-                  </Checkbox>
-                </Center>
-              </Stack>
             </FormControl>
+            <FormControl />
+            <FormControl isRequired>
+              <FormLabel>Last Name</FormLabel>
+              <Input
+                className={styles.formInput}
+                type="text"
+                id="lastName"
+                name="lastName"
+                placeholder="Last Name"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                focusBorderColor="#F2D2BD"
+                required
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                focusBorderColor="#F2D2BD"
+                required
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="text"
+                id="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
+                focusBorderColor="#F2D2BD"
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Confirm Password</FormLabel>
+              <Input
+                type="text"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                focusBorderColor="#F2D2BD"
+              />
+            </FormControl>
+            <Stack>
+              <Center>
+                <Checkbox
+                  _checked={{
+                    '& .chakra-checkbox__control': { background: '#FFF' },
+                  }}
+                  borderColor="#FFF"
+                  iconColor="black"
+                  isChecked={isChecked}
+                  onChange={handleCheckboxChange}
+                >
+                  Are all <u>Terms and Conditions</u> read?
+                </Checkbox>
+              </Center>
+            </Stack>
           </Stack>
         </Box>
       </Center>

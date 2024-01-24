@@ -1,0 +1,10 @@
+.sideBarContainer { 
+    background-color: #191919;
+    }
+
+.sideBarIcons {
+    color:#F2D2BD;
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+}

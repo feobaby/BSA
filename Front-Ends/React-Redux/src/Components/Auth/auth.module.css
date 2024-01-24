@@ -1,0 +1,24 @@
+.boxCenter {
+    margin-top: 5%;
+    color: white;
+}
+.textColor {
+    color: bisque;
+}
+.closeBtn {
+    margin-left: 90%;
+    position: fixed;
+}
+.alertBox {
+    margin: 0 auto;
+    width: 50%;
+}
+.signUpMessage {
+    text-align: center;
+}
+.cursor {
+    cursor: pointer;
+}
+.cursor:hover {
+    color: #F2D2BD;
+}

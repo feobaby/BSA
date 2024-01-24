@@ -17,6 +17,7 @@ const generalMessages = {
   Msg_Group_Delete_Balance:
     "Sorry, your balance has to be at 0 before you can delete a group.",
   Msg_Fetch_Transactions: "Transactions fetched successfully.",
+  Msg_No_Amount_Supplied: 'Please you have to put in an amount.'
 };
 
 export default generalMessages;
