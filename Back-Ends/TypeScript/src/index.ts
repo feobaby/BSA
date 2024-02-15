@@ -1,30 +1,20 @@
-import express, { Application } from "express";
-import dotenv from "dotenv";
-import UserRoute from "./Module/users/routes/user.routes";
+import express from 'express';
+import dotenv from 'dotenv';
+import router from './routes/index';
 
 dotenv.config();
 
-class App {
-  public app: Application = express();
-  public userRoute: UserRoute = new UserRoute();
+const app = express();
 
-  constructor() {
-    this.app = express();
-    this.app.use(express.json());
-    this.config();
-    this.userRoute.routes(this.app);
-    this.app.get("/hi", (req, res) =>
-      res.status(200).send({ message: "Welcome to BSA!" }),
-    );
-  }
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-  private config = (): void => {
-    const port = process.env.PORT;
-    this.app.use(express.json());
-    this.app.listen(port, () => {
-      console.log(`Server running on http://localhost:${port}`);
-    });
-  };
-}
+app.use('/api/v1', router);
 
-export default new App().app;
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server is running on PORT:${port}`);
+});
+
+export default app;

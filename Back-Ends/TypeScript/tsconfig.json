@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "experimentalDecorators": true,
     "sourceMap": true,
     "outDir": "dist",
@@ -10,10 +10,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true
-  }
-  // "ts-node": {
-  //   "esm": true,
-  // },
+    "types": ["node", "jest", "express-serve-static-core", "./types.d.ts"]
+  },
+  "include": ["src/**/*.ts"]
 }
