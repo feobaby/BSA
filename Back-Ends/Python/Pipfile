@@ -8,8 +8,11 @@ django = "*"
 djangorestframework = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
+pyjwt = "*"
+bcrypt = "*"
+black = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.11"
+python_version = "3.9"
