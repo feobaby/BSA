@@ -13,6 +13,7 @@ const { Msg_No_Amount_Supplied, Msg_Update_Success } = accountMessages;
 const { createTransactionService } = TransactionService;
 const { findAccountIdService, updateAccountBalanceService } = AccountService;
 
+
 export default class AccountsController {
   static async depositMoneyToWalletBalance(req: Request, res: Response) {
     try {

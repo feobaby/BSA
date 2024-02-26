@@ -1,15 +1,24 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.db import models 
+from django.contrib.auth.hashers import make_password
+from django.db import models
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, first_name, last_name, **extra_fields):
         if not email:
-            raise ValueError('The Email field must be set')
+            raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
-        user = self.model(email=email, password=password, first_name=first_name, last_name=last_name, **extra_fields)
+        user = self.model(
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            **extra_fields,
+        )
         user.set_password(password)
         user.save()
         return user
+
 
 class UserModel(AbstractBaseUser):
     email = models.EmailField(unique=True)
@@ -20,4 +29,7 @@ class UserModel(AbstractBaseUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
+
+    def __str__(self):
+        return self.email
