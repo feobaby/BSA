@@ -175,25 +175,32 @@ class DepositMoneyToGroup(APIView):
         deposited_amount_decimal = Decimal(str(deposited_amount))
         change_in_balance = group.goalBalance - group.groupBalance
 
-        # Check if group's goal balance is already 1000 or if user adding more than what should be added
         if (
-            group.goalBalance == group.groupBalance
-            or deposited_amount > change_in_balance
+            deposited_amount > change_in_balance
+            or group.goalBalance == group.groupBalance
         ):
             return Response(
                 {
-                    "error": "Please review! You can't add more money over the balance or group's goal balance is already met."
+                    "error": "You are depositing more than necessary or goal met already."
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
         else:
+            # Adjust group and account balances
             group.groupBalance += deposited_amount_decimal
             account.balance -= deposited_amount_decimal
+
+            # Save changes to database
             group.save()
             account.save()
 
+            # Serialize updated group and account data
             group_serializer = GroupSerializer(group)
             account_serializer = AccountSerializer(account)
+
+        if group.goalBalance == group.groupBalance and group.status == "pending":
+            group.status = "completed"
+            group.save()
 
         return Response(
             {
