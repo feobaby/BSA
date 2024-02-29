@@ -1,7 +1,8 @@
 import jwt
 from datetime import datetime, timedelta
 from bsa.settings import SECRET_KEY
-from rest_framework import exceptions
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework import status
 
 
 class AuthenticationToken:
@@ -18,6 +19,9 @@ class AuthenticationToken:
             payload = jwt.decode(token, SECRET_KEY)
             return payload["id"]
         except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-            raise exceptions.AuthenticationFailed(
-                "Token invalid or expired. please login again."
+            raise AuthenticationFailed(
+                {
+                    "status": status.HTTP_403_FORBIDDEN,
+                    "error": "Token invalid or expired. please login again.",
+                }
             )

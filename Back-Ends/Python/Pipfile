@@ -11,6 +11,7 @@ python-dotenv = "*"
 pyjwt = "*"
 bcrypt = "*"
 black = "*"
+tomli = "*"
 
 [dev-packages]
 
