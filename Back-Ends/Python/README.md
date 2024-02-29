@@ -2,13 +2,14 @@
 
 ## :rocket: Quick start
 
-1.  Have Git, Python3, pip and pipenv installed on your computer.
+1.  Have `Git`, `Python3`, `pip` and `pipenv` installed on your computer.
 2.  Clone the repo.
-3.  cd into the project `bsa`, cd into both `Back-Ends` and cd into the `Python` folder to install
-    the dependencies using `pipenv install`.
-4.  Create a `.env` file in the folder and add the necessary variables following the _.env.sample_ format.
-5.  You can do a quick database migration using the command: `python manage.py migrate`.
-6.  Run `python manage.py runserver 3000` to start the backend server.
+3.  cd into the project `bsa`, and cd into the `Back-Ends` and `Python` folders.
+4.  if `pipenv` has been installed, then run `pipenv shell`, and run `pipenv install --skip-lock` 
+    to install dependencies from `pipfile`.    
+5.  Create a `.env` file in the folder and add the necessary variables following the _.env.sample_ format.
+6.  You can do a quick database migration using the command: `python manage.py migrate`.
+7.  Run `python manage.py runserver 3000` to start the backend server.
 
 ## :star: Tools used
 

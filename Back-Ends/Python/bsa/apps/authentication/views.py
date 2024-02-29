@@ -1,21 +1,14 @@
+import bcrypt
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
-from .serializers import UserSerializer
-from .serializers import LoginSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from .serializers import UserSerializer, LoginSerializer
 from apps.account.serializers import AccountSerializer
 from apps.group.serializers import GroupSerializer
 from .token import AuthenticationToken
 from .models import UserModel
 from django.contrib.auth import authenticate
-from django.core.exceptions import PermissionDenied
-import bcrypt
-from django.contrib.auth.hashers import check_password
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import ValidationError
-from django.contrib.auth.hashers import check_password
-from rest_framework.exceptions import ValidationError
 
 
 class UserRegistrationView(APIView):

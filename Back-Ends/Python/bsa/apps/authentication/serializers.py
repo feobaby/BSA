@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from .models import UserModel
+from rest_framework import serializers
 from apps.account.serializers import AccountSerializer
 from apps.group.serializers import GroupSerializer
 

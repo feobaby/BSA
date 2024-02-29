@@ -1,3 +1,4 @@
+import random
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -5,8 +6,6 @@ from apps.account.serializers import AccountSerializer
 from apps.transaction.serializers import TransactionSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import AccountModel
-from apps.authentication.models import UserModel
-import random
 from decimal import Decimal
 
 
@@ -22,12 +21,14 @@ class DepositMoneyToWallet(APIView):
     def put(self, request, format=None):
         user = request.user
         account = self.get_object(user)
-        deposited_amount = request.data.get("balance")
+        deposited_amount = request.data.get("amount")
 
         if deposited_amount is None:
             return Response(
-                {"error": "An amount is required."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {
+                    "status": status.HTTP_400_BAD_REQUEST,
+                    "error": "An amount is required.",
+                }
             )
 
         # Generate a random number
@@ -49,8 +50,10 @@ class DepositMoneyToWallet(APIView):
             transaction_serializer.save()
         else:
             return Response(
-                {"error": "Transaction creation failed."},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                {
+                    "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    "error": "Transaction creation failed.",
+                }
             )
         deposited_amount_decimal = Decimal(str(deposited_amount))
         account.balance += deposited_amount_decimal
@@ -61,8 +64,8 @@ class DepositMoneyToWallet(APIView):
             {
                 "status": status.HTTP_200_OK,
                 "message": "Wallet updated successfully!",
-                "updated_balance": {"data": account_serializer.data},
-                "transaction": {"data": transaction_serializer.data},
+                "updated_balance": account_serializer.data,
+                "transaction": transaction_serializer.data,
             },
             status=status.HTTP_200_OK,
         )
