@@ -32,7 +32,9 @@ POST: `localhost:3000/api/v1/auth/signin`
 }
 ```
 #### Ensuring a user can get their profile
+
 Authorization: Bearer <token>
+
 GET: `localhost:3000/api/v1/auth/profile`
 
 #
@@ -40,7 +42,9 @@ GET: `localhost:3000/api/v1/auth/profile`
 ### For Account-related purposes
 
 #### A user can deposit money to their wallet
+
 Authorization: Bearer <token>
+
 PUT: `localhost:3000/api/v1/account/deposit-wallet`
 
 ```
@@ -54,7 +58,9 @@ PUT: `localhost:3000/api/v1/account/deposit-wallet`
 ### For Group-related purposes
 
 #### A user can create a group
+
 Authorization: Bearer <token>
+
 POST: `localhost:3000/api/v1/group/create`
 
 ```
@@ -69,7 +75,9 @@ POST: `localhost:3000/api/v1/group/create`
 ```
 
 #### A user can update a group they created
+
 Authorization: Bearer <token>
+
 PATCH: `localhost:3000/api/v1/group/update/<id>`
 
 ```
@@ -84,19 +92,27 @@ PATCH: `localhost:3000/api/v1/group/update/<id>`
 ```
 
 #### A user can get all groups they have created
+
 Authorization: Bearer <token>
+
 GET: `localhost:3000/api/v1/group/user`
 
 #### A user can get a group they created
+
 Authorization: Bearer <token>
+
 GET: `localhost:3000/api/v1/group/<group-id>`
 
 #### A user can get all groups they are part of
+
 Authorization: Bearer <token>
+
 GET: `localhost:3000/api/v1/group?email=<user-email>`
 
 #### A user that is part of a group can deposit any amount of money to the group
+
 Authorization: Bearer <token>
+
 PUT: `localhost:3000/api/v1/group/deposit-group/<group-id>`
 
 ```
@@ -110,5 +126,7 @@ PUT: `localhost:3000/api/v1/group/deposit-group/<group-id>`
 ### For Transaction-related purposes
 
 #### A user can get a list of all their transactions (be it wallet or group deposit)
+
 Authorization: Bearer <token>
+
 GET: `localhost:3000/api/v1/transaction`

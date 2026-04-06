@@ -1,7 +1,15 @@
-from .models import UserModel
-from rest_framework import serializers
-from apps.account.serializers import AccountSerializer
-from apps.group.serializers import GroupSerializer
+from .models import (
+    UserModel,
+)
+from rest_framework import (
+    serializers,
+)
+from apps.account.serializers import (
+    AccountSerializer,
+)
+from apps.group.serializers import (
+    GroupSerializer,
+)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -35,7 +43,10 @@ class UserSerializer(serializers.ModelSerializer):
             "group_model",
         ]
 
-    def validate_email(self, email):
+    def validate_email(
+        self,
+        email,
+    ):
         if UserModel.objects.filter(email=email).exists():
             raise serializers.ValidationError("Email already exists.")
         return email
@@ -45,7 +56,10 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(max_length=128)
 
-    def validate(self, data):
+    def validate(
+        self,
+        data,
+    ):
         email = data.get("email")
         password = data.get("password")
 

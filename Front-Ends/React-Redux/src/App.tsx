@@ -15,9 +15,9 @@ export const App = () => {
         <Route path="/" Component={Homepage} />
         <Route path="/signup" Component={SignUp} />
         <Route path="/signin" Component={SignIn} />
-        <Route path="/" element={<ProtectedRoute />}>
+        {/* <Route path="/" element={<ProtectedRoute />}> */}
           <Route path="dashboard" element={<Dashboard />} />
-        </Route>
+        {/* </Route> */}
         <Route path="/signin" Component={DashboardCreatedGroups} />
         <Route path="/c" Component={LineChartAnalytics} />
 
