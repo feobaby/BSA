@@ -1,6 +1,12 @@
-from rest_framework import serializers
-from .models import GroupModel
-from apps.authentication.models import UserModel
+from rest_framework import (
+    serializers,
+)
+from .models import (
+    GroupModel,
+)
+from apps.authentication.models import (
+    UserModel,
+)
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -10,13 +16,13 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupModel
         fields = [
-            "id",
-            "user_id",
+            # "id",
+            # "user_id",
             "name",
             "description",
             "category",
-            "goalBalance",
-            "groupBalance",
+            "goal_balance",
+            "group_balance",
             "currency",
             "emails",
             "status",

@@ -13,11 +13,24 @@ import (
 )
 
 func CreateToken(id uint32) (string, error) {
-	claims := jwt.MapClaims{}
-	claims["authorized"] = true
-	claims["id"] = id
+	claims := jwt.MapClaims{
+		"id": id,
+	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(os.Getenv("SECRET")))
+
+	// Get secret key from environment variable
+	secret := os.Getenv("SECRET")
+	if secret == "" {
+		return "", fmt.Errorf("SECRET environment variable is not set")
+	}
+
+	// Sign the token with the secret key
+	tokenString, err := token.SignedString([]byte(secret))
+	if err != nil {
+		return "", fmt.Errorf("failed to sign token: %v", err)
+	}
+
+	return tokenString, nil
 }
 
 func TokenValid(r *http.Request) error {
@@ -74,7 +87,7 @@ func ExtractTokenID(r *http.Request) (uint32, error) {
 	return 0, nil
 }
 
-//Pretty display the claims licely in the terminal
+// Pretty display the claims licely in the terminal
 func Pretty(data interface{}) {
 	b, err := json.MarshalIndent(data, "", " ")
 	if err != nil {

@@ -1,24 +1,47 @@
 import random
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from apps.account.serializers import AccountSerializer
-from apps.transaction.serializers import TransactionSerializer
-from rest_framework.permissions import IsAuthenticated
-from .models import AccountModel
-from decimal import Decimal
+from rest_framework import (
+    status,
+)
+from rest_framework.response import (
+    Response,
+)
+from rest_framework.views import (
+    APIView,
+)
+from apps.account.serializers import (
+    AccountSerializer,
+)
+from apps.transaction.serializers import (
+    TransactionSerializer,
+)
+from rest_framework.permissions import (
+    IsAuthenticated,
+)
+from .models import (
+    AccountModel,
+)
+from decimal import (
+    Decimal,
+)
 
 
 class DepositMoneyToWallet(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get_object(self, user):
+    def get_object(
+        self,
+        user,
+    ):
         try:
             return user.accountmodel_set.first()
         except AccountModel.DoesNotExist:
             raise NotFound("Account not found for this user.")
 
-    def put(self, request, format=None):
+    def put(
+        self,
+        request,
+        format=None,
+    ):
         user = request.user
         account = self.get_object(user)
         deposited_amount = request.data.get("amount")
@@ -32,7 +55,10 @@ class DepositMoneyToWallet(APIView):
             )
 
         # Generate a random number
-        random_number = random.randint(10**9, (10**10) - 1)
+        random_number = random.randint(
+            10**9,
+            (10**10) - 1,
+        )
 
         transaction_data = {
             "user_id": request.user.id,

@@ -1,13 +1,26 @@
 import jwt
-from django.conf import settings
-from rest_framework.authentication import BaseAuthentication
-from rest_framework.exceptions import AuthenticationFailed
-from .models import UserModel
-from rest_framework import status
+from django.conf import (
+    settings,
+)
+from rest_framework.authentication import (
+    BaseAuthentication,
+)
+from rest_framework.exceptions import (
+    AuthenticationFailed,
+)
+from .models import (
+    UserModel,
+)
+from rest_framework import (
+    status,
+)
 
 
 class JWTAuthentication(BaseAuthentication):
-    def authenticate(self, request):
+    def authenticate(
+        self,
+        request,
+    ):
         token = request.headers.get("Authorization")
 
         if not token:
@@ -15,7 +28,11 @@ class JWTAuthentication(BaseAuthentication):
 
         try:
             token = token.split()[1]
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            payload = jwt.decode(
+                token,
+                settings.SECRET_KEY,
+                algorithms=["HS256"],
+            )
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed(
                 {
@@ -48,4 +65,7 @@ class JWTAuthentication(BaseAuthentication):
                 }
             )
 
-        return (user, token)
+        return (
+            user,
+            token,
+        )

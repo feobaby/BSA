@@ -1,6 +1,14 @@
-from django.urls import path, include
-from .views import TransactionFetchView
+from django.urls import (
+    path,
+    include,
+)
+from .views import (
+    TransactionFetchView,
+)
 
 urlpatterns = [
-    path("", TransactionFetchView.as_view()),
+    path(
+        "",
+        TransactionFetchView.as_view(),
+    ),
 ]

@@ -1,13 +1,16 @@
-package api
+package routes
 
 import (
-	"github.com/feobaby/BSA/Back-Ends/Golang/api/controllers"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
-func Route(r *gin.RouterGroup) {
-
-	r.POST("/users", controllers.CreateUser)
-
-	return
+func InitRoutes(r *gin.RouterGroup) {
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status":  http.StatusOK,
+			"message": "Welcome to BSA!",
+		})
+	})
 }

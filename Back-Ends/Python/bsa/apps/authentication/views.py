@@ -9,94 +9,94 @@ from apps.group.serializers import GroupSerializer
 from .token import AuthenticationToken
 from .models import UserModel
 from django.contrib.auth import authenticate
+from django.forms.models import model_to_dict
 
 
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        authentication_token = AuthenticationToken()
-        user_serializer = UserSerializer(data=request.data)
-        if user_serializer.is_valid():
-            # Extract the password from the serializer data
-            password = user_serializer.validated_data["password"]
+        try:
+            authentication_token = AuthenticationToken()
+            user_serializer = UserSerializer(data=request.data)
 
-            # Hash the password
-            hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+            if user_serializer.is_valid():
+                password = user_serializer.validated_data["password"]
+                hash_password = bcrypt.hashpw(
+                    password.encode("utf-8"), bcrypt.gensalt()
+                )
+                user_serializer.validated_data["password"] = hash_password.decode(
+                    "utf-8"
+                )
+                user = user_serializer.save()
 
-            # Set the hashed password back to the serializer data
-            user_serializer.validated_data["password"] = hashed_password.decode("utf-8")
+                account_data = {"user": user.id}
+                account_serializer = AccountSerializer(data=account_data)
 
-            # Save the user
-            user = user_serializer.save()
+                if account_serializer.is_valid():
+                    account = account_serializer.save()
 
-            account_data = {"user_id": user.id}
-            account_serializer = AccountSerializer(data=account_data)
-            if account_serializer.is_valid():
-                account = account_serializer.save()
-
+                    return Response(
+                        {
+                            "status": status.HTTP_201_CREATED,
+                            "message": "Your account has been created successfully",
+                            "create_user": model_to_dict(user),
+                            "create_account": {
+                                "id": account.id,
+                                "user_id": user.id,
+                                "balance": account.balance,
+                                "created_at": account.created_at,
+                                "updated_at": account.updated_at,
+                            },
+                            "token": authentication_token.generate_token(user.id),
+                        },
+                        status=status.HTTP_201_CREATED,
+                    )
+        except Exception as e:
             return Response(
                 {
-                    "status": status.HTTP_201_CREATED,
-                    "message": "Your account has been created successfully",
-                    "create_user": {
-                        "id": user.id,
-                        "email": user_serializer.validated_data["email"],
-                        "first_name": user_serializer.validated_data["first_name"],
-                        "last_name": user_serializer.validated_data["last_name"],
-                        "password": hashed_password.decode("utf-8"),
-                        "created_at": user.created_at,
-                        "updated_at": user.created_at,
-                    },
-                    "create_account": {
-                        "id": account.id,
-                        "user_id": account.user_id.id,
-                        "balance": account.balance,
-                        "created_at": account.created_at,
-                        "updated_at": account.updated_at,
-                    },
-                    "token": authentication_token.generate_token(user.id),
+                    "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    "error": "An error occurred",
                 },
-                status=status.HTTP_201_CREATED,
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserLoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        user_login_serializer = LoginSerializer(data=request.data)
-        if user_login_serializer.is_valid():
-            data = user_login_serializer.validated_data
-            email = data.get("email")
-            password = data.get("password")
+        try:
+            user_login_serializer = LoginSerializer(data=request.data)
+            if user_login_serializer.is_valid():
+                data = user_login_serializer.validated_data
+                email = data.get("email")
+                password = data.get("password")
 
-            try:
-                user = UserModel.objects.get(email=email)
-            except UserModel.DoesNotExist:
-                return Response(
-                    {
-                        "status": status.HTTP_400_BAD_REQUEST,
-                        "error": "Email does not exist!",
-                    },
-                )
+                try:
+                    user = UserModel.objects.get(email=email)
+                except UserModel.DoesNotExist:
+                    return Response(
+                        {
+                            "status": status.HTTP_400_BAD_REQUEST,
+                            "error": "Email does not exist!",
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
 
-            # Verify the password using bcrypt
-            if bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
-                authentication_token = AuthenticationToken()
-                token = authentication_token.generate_token(user.pk)
-                return Response({"status": status.HTTP_200_OK, "token": token})
-            else:
-                return Response(
-                    {
-                        "status": status.HTTP_400_BAD_REQUEST,
-                        "error": "Incorrect Password!",
-                    },
-                )
-        else:
+                if bcrypt.checkpw(
+                    password.encode("utf-8"), user.password.encode("utf-8")
+                ):
+                    authentication_token = AuthenticationToken()
+                    token = authentication_token.generate_token(user.pk)
+                    return Response({"status": status.HTTP_200_OK, "token": token})
+        except Exception as e:
             return Response(
-                user_login_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+                {
+                    "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    "error": "An error occurred",
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
 
@@ -118,12 +118,15 @@ class UserFetchView(APIView):
             user = self.get_object(request)
             account = user.accountmodel_set.first()
             groups = user.groupmodel_set.all()
+
             user_serializer = UserSerializer(user)
             account_serializer = AccountSerializer(account)
             group_serializer = GroupSerializer(groups, many=True)
+
             user_data = user_serializer.data
             account_data = account_serializer.data
             group_data = group_serializer.data
+
             return Response(
                 {
                     "status": status.HTTP_200_OK,
@@ -134,6 +137,9 @@ class UserFetchView(APIView):
             )
         except Exception as e:
             return Response(
-                {"error": "An error occurred"},
+                {
+                    "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    "error": "An error occurred.",
+                },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )

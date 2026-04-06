@@ -1,5 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db import (
+    models,
+)
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+)
 
 
 class UserManager(BaseUserManager):
@@ -34,5 +39,7 @@ class UserModel(AbstractBaseUser):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
-    def __str__(self):
+    def __str__(
+        self,
+    ):
         return self.email
